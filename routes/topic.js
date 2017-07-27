@@ -25,7 +25,7 @@ router.route('/')
         (async () => {
             var id = req.body.userId
             const user = await User.getUserById(req.body.userId)
-           
+
             let topic = await Topic.createANewTopic({
                 creator: user,
                 title: req.body.title,
@@ -79,5 +79,28 @@ router.route('/:id')
             .catch(e => {
                 next(e)
             })
+    })
+
+router.route('/:id/reply')
+    .post((req, res, next) => {
+        (async () => {
+            const user = await User.getUserById(req.body.userId)
+            let topic = await Topic.replyATopic({
+                creator: user,
+                content: req.body.content
+            })
+            return {
+                code: 0,
+                topic: topic,
+            }
+        })()
+            .then(r => {
+                res.json(r)
+            })
+            .catch(e => {
+                next(e)
+            })
+
+
     })
 module.exports = router;
