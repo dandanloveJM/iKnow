@@ -12,7 +12,7 @@ class User{
 
 async function createANewUser(params){
     const user = new User(params)
-    User.users.push(user)
+    users.push(user)
     return user
 }
 
