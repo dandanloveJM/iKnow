@@ -12,6 +12,9 @@ class Topic{
             throw {code:-1, msg:"a topic content must be longer than 5 characters "}
         }
         this._id = TOPIC_ID_INIT++
+        this.content = params.content
+        this.title = params.title
+
     }
 }
 

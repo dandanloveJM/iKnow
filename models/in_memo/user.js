@@ -21,7 +21,7 @@ async function getUsers(params){
 }
 
 async function getUserById(userId){
-    return users.find(u=>u._id === userId)
+    return users.find(u=>u._id === Number(userId))
 }
 
 async function updateUserById(userId, update){
