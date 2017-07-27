@@ -43,8 +43,19 @@ router.route('/')
 //localhost:8082/user/dandan
 router.route('/:id')
   .get((req, res, next) => {
-    res.send('trying to get a user')
-
+    (async () => {
+      let users = await User.getUserById(Number(req.params.id))
+      return {
+        code:0,
+        users: users,
+      }
+    })()
+      .then(r => {
+        res.json(r)
+      })
+      .catch(e => {
+        next(e)
+      })
   })
   .patch((req, res) => {
     res.send('trying to modify a user')
