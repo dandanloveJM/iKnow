@@ -1,15 +1,16 @@
 const express = require('express');
 const router = express.Router();
+const Topic = require('../models/in_memo/topic')
 const User = require('../models/in_memo/user')
 
-/* localhost:8082/user/ */
+/* localhost:8082/topic/ */
 router.route('/')
   .get((req, res, next) => {
     (async () => {
-      let users = await User.getUsers()
+      let topics = await Topic.getTopics()
       return {
         code:0,
-        users: users,
+        topics: topics,
       }
     })()
       .then(r => {
@@ -22,13 +23,13 @@ router.route('/')
   })
   .post((req, res, next) => {
     (async () => {
-      let users = await User.createANewUser({
+      let topics = await Topic.createANewTopic({
         name: req.body.name,
         age: req.body.age
       })
       return {
         code:0,
-        users: users,
+        topics: topics,
       }
     })()
       .then(r => {
@@ -40,14 +41,14 @@ router.route('/')
    
 
   })
-//localhost:8082/user/dandan
+//localhost:8082/topic/dandan
 router.route('/:id')
   .get((req, res, next) => {
     (async () => {
-      let user = await User.getUserById(Number(req.params.id))
+      let topic = await Topic.getTopicById(Number(req.params.id))
       return {
         code:0,
-        user: user,
+        topic: topic,
       }
     })()
       .then(r => {
@@ -59,13 +60,13 @@ router.route('/:id')
   })
   .patch((req, res, next) => {
    (async () => {
-      let user = await User.updateUserById(Number(req.params.id), {
+      let topic = await Topic.updateTopicById(Number(req.params.id), {
         name: req.body.name,
         age: req.body.age
       })
       return {
         code:0,
-        user: user,
+        topic: topic,
       }
     })()
       .then(r => {

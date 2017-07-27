@@ -32,6 +32,7 @@ async function updateUserById(userId, update){
     if(update.age){
         user.age = update.age
     }
+    return user
 }
 
 
@@ -39,5 +40,6 @@ module.exports = {
     model: User,
     createANewUser,
     getUsers,
-    getUserById
+    getUserById,
+    updateUserById
 }
