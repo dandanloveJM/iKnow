@@ -46,9 +46,7 @@ async function updateTopicById(topicId, update) {
 }
 
 async function replyATopic(params) {
-    const topic = topics.find(t => {
-        Number(params.topicId) === t._id
-    })
+    const topic = topics.find(t => t._id===Number(params.topicId))
     topic.replyList.push({
         creator: params.creator,
         content: params.content,

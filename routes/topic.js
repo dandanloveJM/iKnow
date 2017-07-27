@@ -45,8 +45,8 @@ router.route('/')
 
 
     })
-//localhost:8082/topic/dandan
-router.route('/:id')
+//localhost:8082/topic/10000
+router.route('/:topicId')
     .get((req, res, next) => {
         (async () => {
             let topic = await Topic.getTopicById(Number(req.params.id))
@@ -81,11 +81,12 @@ router.route('/:id')
             })
     })
 
-router.route('/:id/reply')
+router.route('/:topicId/reply')
     .post((req, res, next) => {
         (async () => {
-            const user = await User.getUserById(req.body.userId)
+            const user = await User.getUserById(req.body.userId)  
             let topic = await Topic.replyATopic({
+                topicId: req.params.topicId,
                 creator: user,
                 content: req.body.content
             })
