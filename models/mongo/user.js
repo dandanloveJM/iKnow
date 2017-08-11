@@ -23,8 +23,25 @@ async function getUsers(params = { page: 0, pageSize: 10 }) {
     flow.skip(params.page * params.pageSize)
     flow.limit(params.pageSize)
     return await flow
+        .catch(e => {
+            console.log(e)
+            throw new Error('erroe getting users from db')
+        })
+}
+
+async function getUserById(userId) {
+    return await UserModel.find({ _id: userId })
     .catch(e=>{
         console.log(e)
-        throw new Error('erroe getting users from db')
+        throw new Error(`error getting user by id ${userId}`)
     })
+}
+
+async function updateUserById(userId, update) {
+    return await UserModel.findOneAndUpdate({_id:userId}, update, {new:true})
+    .catch(e=>{
+        console.log(e)
+        throw new Error(`error updating user by id ${userId}`)
+    })
+    
 }
