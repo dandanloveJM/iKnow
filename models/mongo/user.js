@@ -14,11 +14,12 @@ async function createANewUser(params) {
         .then()
         .catch(e => {
             switch (e.code) {
-                case '11000':
-                    throw Error('Someone has picked that name, choose another name!')
-                    break;
+                case 11000:
+                    throw new Error('Someone has picked that name, choose another name!')
+                    break
                 default:
                     throw new Error(`error creating user ${JSON.stringify(params)}`)
+                    break
 
             }
 
