@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/in_memo/user')
+const User = require('../models/mongo/user')
 
 /* localhost:8082/user/ */
 router.route('/')

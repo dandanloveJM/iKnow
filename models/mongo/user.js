@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 
 const UserSchema = new Schema({
     name: { type: String, required: true, unique: true },
-    age: { type: number },
+    age: { type: Number, max:90, min:[1, 'nobody could be younger than 1 year old'] },
 })
 
 const UserModel = mongoose.model('user', UserSchema)
