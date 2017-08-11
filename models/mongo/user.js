@@ -13,6 +13,7 @@ async function createANewUser(params) {
     return await user.save()
         .then()
         .catch(e => {
+            console.log(e)
             switch (e.code) {
                 case 11000:
                     throw new Error('Someone has picked that name, choose another name!')

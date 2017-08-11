@@ -8,7 +8,7 @@ router.route('/')
     (async () => {
       let users = await User.getUsers()
       return {
-        code:0,
+        code: 0,
         users: users,
       }
     })()
@@ -18,7 +18,7 @@ router.route('/')
       .catch(e => {
         next(e)
       })
-   
+
   })
   .post((req, res, next) => {
     (async () => {
@@ -27,7 +27,7 @@ router.route('/')
         age: req.body.age
       })
       return {
-        code:0,
+        code: 0,
         users: users,
       }
     })()
@@ -37,16 +37,16 @@ router.route('/')
       .catch(e => {
         next(e)
       })
-   
+
 
   })
 //localhost:8082/user/dandan
 router.route('/:id')
   .get((req, res, next) => {
     (async () => {
-      let user = await User.getUserById(Number(req.params.id))
+      let user = await User.getUserById(req.params.id)
       return {
-        code:0,
+        code: 0,
         user: user,
       }
     })()
@@ -58,13 +58,14 @@ router.route('/:id')
       })
   })
   .patch((req, res, next) => {
-   (async () => {
-      let user = await User.updateUserById(Number(req.params.id), {
-        name: req.body.name,
-        age: req.body.age
-      })
+    (async () => {
+      //如果更新时为部分更新，即只更新名字或者年龄时
+      let update = {}
+      if(req.body.name) update.name = req.body.name
+      if(req.body.age) update.age = req.body.age
+      let user = await User.updateUserById(req.params.id, update)
       return {
-        code:0,
+        code: 0,
         user: user,
       }
     })()
