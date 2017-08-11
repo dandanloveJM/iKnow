@@ -10,12 +10,13 @@ const UserModel = mongoose.model('user', UserSchema)
 
 async function createANewUser(params) {
     const user = new UserModel({ name: params.name, age: params.age })
-    await user.save()
+    return await user.save()
         .then()
         .catch(e => {
-
+            console.log(e)
+            throw new Error(`error creating user ${ JSON.stringify(params) }`)
         })
-    return user
+   
 }
 //1.出于安全性的考虑，一次只给一部分用户数据；2.给服务器减小压力
 async function getUsers(params = { page: 0, pageSize: 10 }) {
@@ -25,7 +26,7 @@ async function getUsers(params = { page: 0, pageSize: 10 }) {
     return await flow
         .catch(e => {
             console.log(e)
-            throw new Error('erroe getting users from db')
+            throw new Error('error getting users from db')
         })
 }
 
@@ -44,4 +45,12 @@ async function updateUserById(userId, update) {
         throw new Error(`error updating user by id ${userId}`)
     })
     
+}
+
+module.exports = {
+    model: UserModel,
+    createANewUser,
+    getUsers,
+    getUserById,
+    updateUserById
 }
