@@ -13,6 +13,9 @@ const UserSchema = new Schema({
     phoneNumber: { type: String }
 
 })
+//password在创建用户之后不返回显示出来，0表示不显示，phoneNUmber表示降序排列
+//类似的功能还有在问题列表页时，问题的replylist也不用显示
+const DEFAULT_PROJECTION = { password: 0, phoneNumber: -1 }
 
 const UserModel = mongoose.model('user', UserSchema)
 
@@ -26,7 +29,7 @@ async function createANewUser(params) {
             throw new Error(`something goes wrong inside the server`)
         })
 
-    return await user.save()
+    let createdUser = await user.save()
         .then()
         .catch(e => {
             console.log(e)
@@ -42,10 +45,18 @@ async function createANewUser(params) {
 
         })
 
+    return {
+        _id: createdUser._id,
+        name: createdUser.name,
+        age: createdUser.age,
+        phoneNumber: createdUser.phoneNumber
+    }
+
 }
 //1.出于安全性的考虑，一次只给一部分用户数据；2.给服务器减小压力
 async function getUsers(params = { page: 0, pageSize: 10 }) {
     let flow = UserModel.find({})
+    flow.select(DEFAULT_PROJECTION)
     flow.skip(params.page * params.pageSize)
     flow.limit(params.pageSize)
     return await flow
@@ -56,7 +67,8 @@ async function getUsers(params = { page: 0, pageSize: 10 }) {
 }
 
 async function getUserById(userId) {
-    return await UserModel.find({ _id: userId })
+    return await UserModel.findOne({ _id: userId })
+        .select(DEFAULT_PROJECTION)
         .catch(e => {
             console.log(e)
             throw new Error(`error getting user by id ${userId}`)
