@@ -65,3 +65,11 @@ async function replyATopic(params) {
         })
 }
 
+module.exports = {
+    TopicModel,
+    createANewTopic,
+    getTopics,
+    getTopicById,
+    updateTopicById,
+    replyATopic,
+}
