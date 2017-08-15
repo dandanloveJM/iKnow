@@ -15,7 +15,8 @@ const UserSchema = new Schema({
 })
 //password在创建用户之后不返回显示出来，0表示不显示，phoneNUmber表示降序排列
 //类似的功能还有在问题列表页时，问题的replylist也不用显示
-const DEFAULT_PROJECTION = { password: 0, phoneNumber: -1 }
+//{password:0, phoneNumber:-1}不能混写～mongodb会报错～
+const DEFAULT_PROJECTION = { password: 0}
 
 const UserModel = mongoose.model('user', UserSchema)
 
