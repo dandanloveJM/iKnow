@@ -1,15 +1,31 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema
+const bluebird = require('bluebird')
+const crypto = require('crypto')
+const pbkdf2Async = bluebird.promisify(crypto.pbkdf2)
+const SALT = require('../../cipher').PASSWORD_SALT
+
 
 const UserSchema = new Schema({
     name: { type: String, required: true, unique: true },
     age: { type: Number, max: 90, min: [1, 'nobody could be younger than 1 year old'] },
+    password: { type: String, required: true },
+    phoneNumber: { type: String }
+
 })
 
 const UserModel = mongoose.model('user', UserSchema)
 
 async function createANewUser(params) {
     const user = new UserModel({ name: params.name, age: params.age })
+
+    user.password = await pbkdf2Async(params.password, SALT, 512, 128, 'sha512')
+        .then(r => r.toString())
+        .catch(e => {
+            console.log(e)
+            throw new Error(`something goes wrong inside the server`)
+        })
+
     return await user.save()
         .then()
         .catch(e => {

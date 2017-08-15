@@ -24,7 +24,9 @@ router.route('/')
     (async () => {
       let users = await User.createANewUser({
         name: req.body.name,
-        age: req.body.age
+        age: req.body.age,
+        password: req.body.password,
+        phoneNumber: req.body.phoneNumber,
       })
       return {
         code: 0,
@@ -63,6 +65,8 @@ router.route('/:id')
       let update = {}
       if(req.body.name) update.name = req.body.name
       if(req.body.age) update.age = req.body.age
+      if(req.body.phoneNumber) update.phoneNumber = req.body.phoneNumber
+      if(req.body.password) update.password = req.body.password
       let user = await User.updateUserById(req.params.id, update)
       return {
         code: 0,
