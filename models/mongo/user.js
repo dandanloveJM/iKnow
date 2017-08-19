@@ -93,8 +93,9 @@ async function login(phoneNumber, password) {
             console.log(e)
             throw new Error(`something goes wrong inside the server`)
         })
-
-    const user =  await UserModel.findOne({ phoneNumber: phoneNumber, password: password })
+ 
+    const user =  await UserModel.findOne({ phoneNumber: phoneNumber, password: UserPassword })
+        .select(DEFAULT_PROJECTION)
         .catch(e => {
             console.log(`error logging in , phoneNumber ${phoneNumber}`, { err: e.stack || e });
             throw new Error(`something goes wrong inside the server`)
@@ -110,5 +111,6 @@ module.exports = {
     createANewUser,
     getUsers,
     getUserById,
-    updateUserById
+    updateUserById,
+    login
 }
