@@ -11,27 +11,27 @@ router.get('/', function (req, res, next) {
 
 
 router.post('/login', (req, res, next) => {
-  (async () => { 
+  (async () => {
     const user = await User.login(req.body.phoneNumber, req.body.password)
 
-    const token = JWT.sign({_id: user.id, iat: Date.now(), expire: Date.now() + 20000}, JWT_SECERT)
+    const token = JWT.sign({ _id: user.id, iat: Date.now(), expire: Date.now() + 24 * 60 * 60 * 1000 }, JWT_SECERT)
 
     return {
-      code:0,
-      data:{
+      code: 0,
+      data: {
         user: user,
         token: token,
       }
-      
+
     }
-  })() 
-   .then(r =>{ 
-    res.json(r)
-   }) 
-   .catch(e=>{ 
-     console.log(e)
-     next(e)
-   })
+  })()
+    .then(r => {
+      res.json(r)
+    })
+    .catch(e => {
+      console.log(e)
+      next(e)
+    })
 
 })
 module.exports = router;

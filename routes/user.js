@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/mongo/user')
+const auth = require('../middlewares/auth_user')
 
 /* localhost:8082/user/ */
 router.route('/')
@@ -59,7 +60,7 @@ router.route('/:id')
         next(e)
       })
   })
-  .patch((req, res, next) => {
+  .patch(auth(), (req, res, next) => {
     (async () => {
       //如果更新时为部分更新，即只更新名字或者年龄时
       let update = {}

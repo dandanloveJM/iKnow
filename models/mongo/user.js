@@ -78,6 +78,7 @@ async function getUserById(userId) {
 
 async function updateUserById(userId, update) {
     return await UserModel.findOneAndUpdate({ _id: userId }, update, { new: true })
+        .select(DEFAULT_PROJECTION)
         .catch(e => {
             console.log(e)
             throw new Error(`error updating user by id ${userId}`)
