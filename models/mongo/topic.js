@@ -6,7 +6,7 @@ const ReplySchema = new Schema({
     content: String
 })
 const TopicSchema = new Schema({
-    author: { type: String, required: true },
+    creator: { type: String, required: true },
     content: { type: String },
     title: { type: String },
     replyList: [ReplySchema]
@@ -16,13 +16,14 @@ const TopicModel = mongoose.model('topic', TopicSchema)
 
 async function createANewTopic(params) {
     const topic = new TopicModel({
-        author: params.author,
+        creator: params.creator,
         title: params.title,
         content: params.content,
     })
     return await topic.save()
         .catch(e => {
-            throw new Error(`error creating topic ${author}`)
+            console.log(e)
+            throw new Error(`error ${params.creator}creating topic `)
         })
 }
 
@@ -39,6 +40,7 @@ async function getTopics(params = { page: 0, pageSize: 10 }) {
 }
 
 async function getTopicById(topicId) {
+    console.log(topicId)
     return await TopicModel.find({ _id: topicId })
         .catch(e => {
             console.log(e)

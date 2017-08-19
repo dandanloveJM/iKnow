@@ -11,7 +11,7 @@ module.exports = function (options) {
             }
             let authList = auth.split(' ')
             const token = authList[1]
-            console.log(token)
+        
             if (!auth || auth.length < 2) {
                 res.statusCode = 401
                 next(new Error('no auth'))
