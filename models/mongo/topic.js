@@ -40,7 +40,7 @@ async function getTopics(params = { page: 0, pageSize: 10 }) {
 }
 
 async function getTopicById(topicId) {
-    console.log(topicId)
+  
     return await TopicModel.find({ _id: topicId })
         .catch(e => {
             console.log(e)

@@ -10,7 +10,8 @@ const UserSchema = new Schema({
     name: { type: String, required: true, unique: true },
     age: { type: Number, max: 90, min: [1, 'nobody could be younger than 1 year old'] },
     password: { type: String, required: true },
-    phoneNumber: { type: String }
+    phoneNumber: { type: String },
+    avatar: { type: String },
 
 })
 //password在创建用户之后不返回显示出来，0表示不显示，phoneNUmber表示降序排列

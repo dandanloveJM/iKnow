@@ -26,7 +26,7 @@ router.route('/')
         (async () => {
             var id = req.body.userId
             const user = await User.getUserById(req.body.userId)
-            console.log(user)
+           
             let topic = await Topic.createANewTopic({
                 creator: user,
                 title: req.body.title,
