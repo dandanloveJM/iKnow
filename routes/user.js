@@ -9,7 +9,7 @@ const HOST = process.env.NODE_ENV === 'production' ? 'http://some.host/' : 'http
 const fs = require('fs')
 const uploader = require('../services/qiniu').uploader
 const upload = multer({
-  storage: multer.memoryStorage(),
+  //storage: multer.memoryStorage(),
   dest: path.join(__dirname, '../public/upload'),
   limits: {
     fileSize: bytes('2MB')
@@ -85,12 +85,14 @@ router.route('/:id')
   })//上传头像接口
   .post(auth(), upload.single('avatar'), (req, res, next) => {
     (async () => {
+      console.dir(req.file)
       if (!req.file) throw new Error('no file!')
       let mimeType = req.file.mimetype.split('/')[1]
       let filename = 'image/avatar/' + Date.now() + '.' + mimeType
-      //将图片的buffer转为可读流
-      bufferStream.end(req.file.buffer)
-      let uploadAvatar = await uploader(filename, bufferStream)
+      //将图片转为可读流
+      const stream = fs.createReadStream(req.file.path)
+      //bufferStream.end(req.file.buffer)
+      let uploadAvatar = await uploader(filename, stream)
         .then()
         .catch(err => {
           throw new Error(`something wrong when upload ${filename}`)
