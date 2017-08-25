@@ -121,22 +121,12 @@ router.route('/:id')
       if (req.body.phoneNumber) update.phoneNumber = req.body.phoneNumber
       if (req.body.password) update.password = req.body.password
 
-        (async () => {
-          let user = await User.updateUserById(req.params.id, update)
+      let user = await User.updateUserById(req.params.id, update)
           return {
             code: 0,
             user: user
           }
-
-        })()
-        .then(data => {
-
-          res.json(data)
-
-        })
-        .catch(e => {
-          next(e)
-        })
+        
 
 
     })()
