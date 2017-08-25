@@ -13,9 +13,9 @@ returnBody: '{"key":"$(key)","hash":"$(etag)","fsize":$(fsize),"bucket":"$(bucke
 const putPolicy = new qiniu.rs.PutPolicy(options)
 const uploadToken =  putPolicy.uploadToken(mac);
 
-const uploader = (key, file) => {
+const uploader = (key, readableStream) => {
     return new Promise((resolve, reject) => {
-        formUploader.putFile(uploadToken, key, file, putExtra, function (respErr,
+        formUploader.putStream(uploadToken, key, readableStream, putExtra, function (respErr,
             respBody, respInfo) {
             if (respErr) {
                 throw new Error(respErr)

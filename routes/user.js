@@ -9,6 +9,7 @@ const HOST = process.env.NODE_ENV === 'production' ? 'http://some.host/' : 'http
 const fs = require('fs')
 const uploader = require('../services/qiniu').uploader
 const upload = multer({
+  storage: multer.memoryStorage(),
   dest: path.join(__dirname, '../public/upload'),
   limits: {
     fileSize: bytes('2MB')
@@ -20,6 +21,10 @@ const upload = multer({
     callback(null, validType)
   }
 })
+
+const stream = require('stream')
+var bufferStream = new stream.PassThrough();
+
 
 /* localhost:8082/user/ */
 router.route('/')
@@ -80,14 +85,15 @@ router.route('/:id')
   })//上传头像接口
   .post(auth(), upload.single('avatar'), (req, res, next) => {
     (async () => {
-
       if (!req.file) throw new Error('no file!')
       let mimeType = req.file.mimetype.split('/')[1]
       let filename = 'image/avatar/' + Date.now() + '.' + mimeType
-      let uploadAvatar = await uploader(filename, req.file.path)
+      //将图片的buffer转为可读流
+      bufferStream.end(req.file.buffer)
+      let uploadAvatar = await uploader(filename, bufferStream)
         .then()
         .catch(err => {
-          next(err)
+          throw new Error(`something wrong when upload ${filename}`)
         })
       if (uploadAvatar.code === 200 || 304) {
         let user = await User.updateUserById(req.params.id, {
@@ -105,9 +111,10 @@ router.route('/:id')
       .then(data => {
         res.json(data)
       })
-      .then(fs.unlink(req.file.path, (err)=>{//上传完成后删除服务器上的文件
-         if (err) { throw new Error(err)}
-      }))
+      // .then(fs.unlink(req.file.path, (err)=>{//上传完成后删除服务器上的文件
+      //    if (err) { throw new Error(err)}
+        
+      // }))
       .catch(err => {
         next(err)
       })

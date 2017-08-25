@@ -3,3 +3,6 @@ auth_stuff.js
 mongoose.js
 index.md
 promise_demo.js
+/public/upload/
+stream_demo.js
+readme.md
