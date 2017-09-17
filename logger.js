@@ -1,16 +1,18 @@
 const winston = require('winston')
-
+require('winston-daily-rotate-file')
 
 const logger = new winston.Logger({
     transports: [
-        new winston.transports.File({
+        new winston.transports.DailyRotateFile({
             name:'info-logger',
-            filename:'./info-log',
+            datePattern: 'yyyy-MM-dd',
+            filename:'./info-log.',
             level:'info',
         }),
-        new winston.transports.File({
+        new winston.transports.DailyRotateFile({
             name:'error-logger',
-            filename:'./error.log',
+            filename:'./error-log.',
+            datePattern: 'yyyy-MM-dd',
             level:'error',
         }),
         
