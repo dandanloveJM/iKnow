@@ -18,7 +18,10 @@ const logger = new winston.Logger({
         
     ]
 })
+//如果是在调试模式，命令行也输出相应的日志内容
+if(!process.env.NODE_ENV || process.env.NODE_ENV === 'development'){
+    logger.add(winston.transports.Console)
+}
 
-logger.info('hello')
-logger.error('some error')
+
 module.exports = logger
