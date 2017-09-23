@@ -5,7 +5,11 @@ index.md
 promise_demo.js
 /public/upload/
 stream_demo.js
+<<<<<<< HEAD
 readme.md
 logs
 .idea
 .vscode
+=======
+readme.md
+>>>>>>> parent of b332854... 删掉express自带的打日志模块
