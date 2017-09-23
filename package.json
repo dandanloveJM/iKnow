@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "test": "mocha"
   },
   "dependencies": {
     "bluebird": "^3.5.0",
@@ -23,10 +24,13 @@
     "winston-daily-rotate-file": "^1.7.0"
   },
   "devDependencies": {
+    "chai": "^4.1.2",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-node": "^5.1.1",
     "eslint-plugin-promise": "^3.5.0",
-    "eslint-plugin-standard": "^3.0.1"
+    "eslint-plugin-standard": "^3.0.1",
+    "mocha": "^3.5.3",
+    "sinon": "^3.3.0"
   }
 }

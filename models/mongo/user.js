@@ -5,6 +5,7 @@ const crypto = require('crypto')
 const pbkdf2Async = bluebird.promisify(crypto.pbkdf2)
 const SALT = require('../../cipher').PASSWORD_SALT
 const Errors = require('../../errors')
+const Logger = require('../../utils/logger')
 
 const UserSchema = new Schema({
     name: { type: String, required: true, unique: true },
@@ -12,7 +13,7 @@ const UserSchema = new Schema({
     password: { type: String, required: true },
     phoneNumber: { type: String },
     avatar: { type: String },
-
+    points:{type: Number}
 })
 //password在创建用户之后不返回显示出来，0表示不显示，phoneNUmber表示降序排列
 //类似的功能还有在问题列表页时，问题的replylist也不用显示
@@ -27,14 +28,14 @@ async function createANewUser(params) {
     user.password = await pbkdf2Async(params.password, SALT, 512, 128, 'sha512')
         .then(r => r.toString())
         .catch(e => {
-            console.log(e)
+            Logger.error('error pbkdf2 password', e)
             throw new Errors.InternalError(`something goes wrong inside the server`)
         })
 
     let createdUser = await user.save()
         .then()
         .catch(e => {
-            console.log(e)
+            Logger.error('error createing user', e)
             switch (e.code) {
                 case 11000:
                     throw new Errors.DuplicateUsernameError(params.name)
@@ -108,11 +109,17 @@ async function login(phoneNumber, password) {
 
 }
 
+async function incrPoints(userId, points){
+    const user = await UserModel.findOneAndUpdate({_id:userId}, {$inc:{points: points}}, {new:true, field:points})
+    return user.points
+}
+
 module.exports = {
     model: UserModel,
     createANewUser,
     getUsers,
     getUserById,
     updateUserById,
-    login
+    login,
+    incrPoints
 }
