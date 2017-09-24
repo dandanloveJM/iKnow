@@ -4,7 +4,9 @@ const like = require('../models/mongo/like')
 
 
 async function likeTopic(userId, attachedId){
+
     await User.incrPoints(userId, 10)
+
 }
 async function likeReply(userId, attachedId){
 

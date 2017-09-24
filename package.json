@@ -5,6 +5,8 @@
   "scripts": {
     "start": "node ./bin/www",
     "test": "mocha $(find ./tests -name '*.js')"
+
+
   },
   "dependencies": {
     "bluebird": "^3.5.0",

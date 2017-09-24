@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 require('../../models/mongo/user')
 require('../../mocks/user')
 require.cache['/home/mcavoy/myexpress/myapp/models/mongo/user.js'] = 
@@ -22,6 +23,7 @@ describe('likeService#likeTopic', async () => {
         User.incrPointsCalled = false
     })
     it('should called incrPoints when topic is liked', async () => {
+
         await LikeService.likeTopic('userid', 'attachedid')
         expect(User.incrPointsCalled).to.be.true
     })
