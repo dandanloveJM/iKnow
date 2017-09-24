@@ -3,7 +3,7 @@ const User = {
     calledWithPoints: undefined,
     'incrPoints': async function(userId, points){
         this.incrPointsCalled = true
-        this.calledWithPoints = 10
+        this.calledWithPoints = points
     }
 }
 

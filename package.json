@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    //配置Mocha,npm test就可以在tests文件夹下的所有.js文件进行Mocha单元测试
     "test": "mocha $(find ./tests -name '*.js')"
 
 
