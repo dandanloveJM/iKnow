@@ -21,9 +21,13 @@ describe('likeService#likeTopic', async () => {
     afterEach(async ()=>{
         User.incrPointsCalled = false
     })
-    it('should called incrPoints when topic is liked', async () => {
-
-        await LikeService.likeTopic('userid', 'attachedid')
+    it('should called User.incrPoints when topic is liked', async () => {
+        await LikeService.likeTopic('userid', 'attachedId')
         expect(User.incrPointsCalled).to.be.true
     })
+    it('should called User.incrPoints with 10 points', async () => {
+        await LikeService.likeTopic('userid', 'attachedId')
+        expect(User.calledWithPoints).to.equal(10)
+    })
+
 })
