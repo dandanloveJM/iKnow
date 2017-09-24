@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 require('../../models/mongo/user')
 require('../../mocks/user')
 require.cache['/home/mcavoy/myexpress/myapp/models/mongo/user.js'] = 
