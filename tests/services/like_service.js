@@ -11,23 +11,20 @@ const { ObjectId } = require('mongoose').Types
 
 describe('likeService#likeTopic', async () => {
     let userId = new ObjectId()
-
-    //首先看用户有没有点过赞
-    //加分
+    let mockUser
     //测试开始前
     beforeEach(async () => {
-        User = sinon.mock(User)
-        
+        mockUser = sinon.mock(User)    //用sinon.mock模拟user对象
     })
     //测试结束后重新设为初始状态
     afterEach(async () => {
-        
+        mockUser.restore()
     })
 
     it('should called User.incrPoints with an valid objectId', async () => {
-        User.expect('incrPoints').once()
+        let expect = mockUser.expects('incrPoints').withArgs(ObjectId(userId), 10)
         await LikeService.likeTopic(userId, 'attachedId')
-        User.verify()
+        expect.verify()
         
     })
     //当userid不合法时就抛出一个错误
@@ -39,12 +36,15 @@ describe('likeService#likeTopic', async () => {
     })
 
     it('should called User.incrPoints when topic is liked', async () => {
+        let expect = mockUser.expects('incrPoints').once()
         await LikeService.likeTopic(userId, 'attachedId')
-        expect(User.incrPointsCalled).to.be.true
+        expect.verify()
     })
+    //测试是否点赞后用户加10分
     it('should called User.incrPoints with 10 points', async () => {
+        let expect = mockUser.expects('incrPoints').withArgs(ObjectId(userId), 10)
         await LikeService.likeTopic(userId, 'attachedId')
-        expect(User.calledWithPoints).to.equal(10)
+        expect.verify()
     })
 
 
