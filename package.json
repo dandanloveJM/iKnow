@@ -10,6 +10,7 @@
     "bluebird": "^3.5.0",
     "body-parser": "~1.17.1",
     "bytes": "^3.0.0",
+    "connect-favicons": "git://github.com/theworkers/connect-favicons.git",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
     "ejs": "^2.5.7",

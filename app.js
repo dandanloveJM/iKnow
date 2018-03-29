@@ -8,6 +8,7 @@ const Errors = require('./errors.js')
 var index = require('./routes/index');
 var users = require('./routes/user');
 const topicRouter = require('./routes/topic')
+const favicons = require('connect-favicons');
 require('./services/mongoose_service.js')
 
 
@@ -24,6 +25,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(favicons(__dirname + '/public/img/icon'));
 
 app.use(require('./middlewares/req_log').logRequests())
 
