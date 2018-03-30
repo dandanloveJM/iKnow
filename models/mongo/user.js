@@ -5,7 +5,7 @@ const crypto = require('crypto')
 const pbkdf2Async = bluebird.promisify(crypto.pbkdf2)
 const SALT = require('../../cipher').PASSWORD_SALT
 const Errors = require('../../errors')
-const Logger = require('../../utils/logger')
+const Logger = require('../../utils/logger').logger
 
 const UserSchema = new Schema({
     name: { type: String, required: true },
