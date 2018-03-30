@@ -9,7 +9,37 @@ router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-
+ /**
+   * @api {POST} /login Login
+   * @apiName Login
+   * @apiGroup User
+   *
+   * @apiParam {Stirng} email user's email
+   * @apiParam {String} password user's password
+   *
+   * @@apiSuccess {Number} code 0 represents "successful repsonse"
+   * @apiSuccess {Object} user   user info
+   * @apiSuccess {String} token   token for user to authorization
+   *
+   * @apiSuccessExample Success-Response:
+   *     HTTP/1.1 200 OK
+   *     {
+   *       "code": "0",
+   *       "data": {
+   *          "user": "user",
+   *          "token": "token"
+   *        }
+   *       
+   *     }
+   *
+   * @apiError ErrorLogin Error when login
+   *
+   * @apiErrorExample Error-Response:
+   *     HTTP/1.1 404 Not Found
+   *     {
+   *       "error": "Error when login"
+   *     }
+   */
 router.post('/login', (req, res, next) => {
   (async () => {
    
