@@ -1,5 +1,81 @@
 define({ "api": [
   {
+    "type": "POST",
+    "url": "/course",
+    "title": "upload course",
+    "name": "upload_course",
+    "group": "Course",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "file",
+            "optional": false,
+            "field": "file",
+            "description": "<p>user's course</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>0 represents &quot;successful repsonse&quot;</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "ObjectId",
+            "optional": false,
+            "field": "userId",
+            "description": "<p>userId</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Array",
+            "optional": false,
+            "field": "courses",
+            "description": "<p>include coursename and teacher</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n   \"code\": 0,\n   \"userId\": \"5abe3f7969c9d9111be87ef6\",\n   \"courses\": [\n       {\n           \"course\": \"多媒体技术及其应用\",\n           \"teacher\": \"阮新新\"\n       },\n       {\n           \"course\": \"信息安全\",\n           \"teacher\": \"刘雅琦\"\n       },\n       {\n            \"course\": \"信息科学前沿\",\n           \"teacher\": \"叶焕倬\"\n       },\n       {\n           \"course\": \"网站与网页设计\",\n           \"teacher\": \"李玲\"\n       },\n       {\n            \"course\": \"专业综合设计\",\n           \"teacher\": \"屈振新\"\n        }\n       ]\n }",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "ErrorUploadAvatar",
+            "description": "<p>Error uploading course</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"something wrong when upload course\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "routes/course.js",
+    "groupTitle": "Course"
+  },
+  {
     "type": "get",
     "url": "/user/",
     "title": "Request All Users information",
@@ -46,6 +122,82 @@ define({ "api": [
     },
     "version": "0.0.0",
     "filename": "routes/user.js",
+    "groupTitle": "User"
+  },
+  {
+    "type": "POST",
+    "url": "/login",
+    "title": "Login",
+    "name": "Login",
+    "group": "User",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Stirng",
+            "optional": false,
+            "field": "email",
+            "description": "<p>user's email</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "password",
+            "description": "<p>user's password</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "user",
+            "description": "<p>user info</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>token for user to authorization</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n  \"code\": \"0\",\n  \"data\": {\n     \"user\": \"user\",\n     \"token\": \"token\"\n   }\n  \n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "ErrorLogin",
+            "description": "<p>Error when login</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"Error when login\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "routes/index.js",
     "groupTitle": "User"
   },
   {
