@@ -186,6 +186,15 @@ router.route('/:id')
    *
    * @apiParam {file} avatar user's avatar
    
+   * @apiHeader {String} Content-Type multipart/form-data
+   * @apiHeader {String} Authorization bearer `token`
+   * 
+   * @apiHeaderExample {json} Header-Example:
+   *    {
+   *       "Content-Type": "multipart/form-data",
+   *       "Authorization" : "bearer `token`"
+   *     }
+   * 
    * 
    * @apiSuccess {Number} code 0 represents "successful repsonse"
    * @apiSuccess {Object} user  user info

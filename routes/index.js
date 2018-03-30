@@ -12,7 +12,7 @@ router.get('/', function (req, res, next) {
  /**
    * @api {POST} /login Login
    * @apiName Login
-   * @apiGroup User
+   * @apiGroup Index
    *
    * @apiParam {Stirng} email user's email
    * @apiParam {String} password user's password
@@ -26,8 +26,12 @@ router.get('/', function (req, res, next) {
    *     {
    *       "code": "0",
    *       "data": {
-   *          "user": "user",
-   *          "token": "token"
+   *          "user": {
+   *              "_id": "5abe3f7969c9d9111be87ef6",
+   *              "name": "dx",
+   *              "email": "123@qq.com"
+   *          },
+   *          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YWJlM2Y3OTY5YzlkOTExMWJlODdlZjYiLCJpYXQiOjE1MjI0MjgwMzQ0NDUsImV4cGlyZSI6MTUyMjUxNDQzNDQ0NX0.C-F4CFj4Ef447q7jzcfs4qFTfg8ZhX0d4tfXl3PpWy0"
    *        }
    *       
    *     }

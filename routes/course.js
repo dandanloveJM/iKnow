@@ -38,7 +38,15 @@ router.route('/')
        *
        * @apiParam {file} file user's course
        
-       * 
+       *  @apiHeader {String} Content-Type multipart/form-data
+       * @apiHeader {String} Authorization bearer `token`
+        * 
+        * @apiHeaderExample {json} Header-Example:
+        *    {
+        *       "Content-Type": "multipart/form-data",
+        *       "Authorization" : "bearer `token`"
+        *     }
+        * 
        * @apiSuccess {Number} code 0 represents "successful repsonse"
        * @apiSuccess {ObjectId} userId userId
        * @apiSuccess {Array} courses  include coursename and teacher
