@@ -16,7 +16,7 @@ router.post('/login', (req, res, next) => {
     if(!req.body.password){
       throw new Errors.ValidationError('password', 'password can not be empty')
     }
-    const user = await User.login(req.body.phoneNumber, req.body.password)
+    const user = await User.login(req.body.email, req.body.password)
 
     const token = JWT.sign({ _id: user.id, iat: Date.now(), expire: Date.now() + 24 * 60 * 60 * 1000 }, JWT_SECERT)
 
