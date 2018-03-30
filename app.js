@@ -8,6 +8,7 @@ const Errors = require('./errors.js')
 var index = require('./routes/index');
 var users = require('./routes/user');
 const topicRouter = require('./routes/topic')
+const courseRouter = require('./routes/course')
 const favicons = require('connect-favicons');
 require('./services/mongoose_service.js')
 
