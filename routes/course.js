@@ -7,7 +7,7 @@ const path = require('path')
 const bytes = require('bytes')
 const fs = require('fs')
 const xlsx = require('node-xlsx')
-const {ObjectId} = require('mongoose').Types
+const { ObjectId } = require('mongoose').Types
 const uploader = require('../services/qiniu').uploader
 const upload = multer({
     //storage: multer.memoryStorage(),
@@ -17,7 +17,7 @@ const upload = multer({
     },
     fileFilter: function (req, files, callback) {
         //只能上传xlsx格式的文件
-      
+
         const filetype = files.originalname.split('.')[files.originalname.split('.').length - 1]
         const validType = 'xlsx'
         callback(null, validType)
@@ -28,13 +28,66 @@ const stream = require('stream')
 var bufferStream = new stream.PassThrough();
 
 /* localhost:8082/course/ */
+
 router.route('/')
+
+    /**
+       * @api {POST} /course upload course
+       * @apiName upload course
+       * @apiGroup Course
+       *
+       * @apiParam {file} file user's course
+       
+       * 
+       * @apiSuccess {Number} code 0 represents "successful repsonse"
+       * @apiSuccess {ObjectId} userId userId
+       * @apiSuccess {Array} courses  include coursename and teacher
+       *
+       * @apiSuccessExample Success-Response:
+       *     HTTP/1.1 200 OK
+       *     {
+       *        "code": 0,
+       *        "userId": "5abe3f7969c9d9111be87ef6",
+       *        "courses": [
+       *            {
+       *                "course": "多媒体技术及其应用",
+       *                "teacher": "阮新新"
+       *            },
+       *            {
+       *                "course": "信息安全",
+       *                "teacher": "刘雅琦"
+       *            },
+       *            {
+       *                 "course": "信息科学前沿",
+       *                "teacher": "叶焕倬"
+       *            },
+       *            {
+       *                "course": "网站与网页设计",
+       *                "teacher": "李玲"
+       *            },
+       *            {
+       *                 "course": "专业综合设计",
+       *                "teacher": "屈振新"
+       *             }
+       *            ]
+       *      }
+       *        
+       *     
+       *
+       * @apiError ErrorUploadAvatar Error uploading course
+       *
+       * @apiErrorExample Error-Response:
+       *     HTTP/1.1 404 Not Found
+       *     {
+       *       "error": "something wrong when upload course"
+       *     }
+       */
     .post(auth({ loadUser: true }), upload.single('file'), (req, res, next) => {
         (async () => {
-           
-         
+
+
             if (!req.file) throw new Error('no file!')
-            
+
             let filename = 'courses/' + Date.now() + '.' + req.file.originalname.split('.')[req.file.originalname.split('.').length - 1]
             //upload first,then turn into JSON,then save in db
 
@@ -77,21 +130,21 @@ router.route('/')
 
                 //console.dir(rObj)
                 for (let key in rObj) {
-                
-                   let course =  await Course.addCourse({
+
+                    let course = await Course.addCourse({
                         userId: ObjectId(req.user._id),
                         course: key,
                         teacher: rObj[key]
 
                     })
-                    
+
                 }
                 let courses = await Course.getCourseByuserId(ObjectId(req.user._id))
                 return {
                     code: 0,
                     userId: req.user._id,
                     courses: courses,
-                  }
+                }
 
 
             }
