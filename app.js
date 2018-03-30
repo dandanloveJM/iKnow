@@ -33,6 +33,7 @@ app.use(require('./middlewares/req_log').logRequests())
 app.use('/', index);
 app.use('/user', users);
 app.use('/topic', topicRouter)
+app.use('/course', courseRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

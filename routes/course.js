@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/mongo/user')
+const Course = require('../models/mongo/course')
 const auth = require('../middlewares/auth_user')
 const multer = require('multer')
 const path = require('path')
 const bytes = require('bytes')
-const HOST = process.env.NODE_ENV === 'production' ? 'http://some.host/' : 'http://localhost:8082'
 const fs = require('fs')
 const xlsx = require('node-xlsx')
+const {ObjectId} = require('mongoose').Types
 const uploader = require('../services/qiniu').uploader
 const upload = multer({
     //storage: multer.memoryStorage(),
@@ -17,8 +17,8 @@ const upload = multer({
     },
     fileFilter: function (req, files, callback) {
         //只能上传xlsx格式的文件
-        const filetype = files.mimetype.split('/')[1]
-        const validType = 'xlsx'.indexOf(filetype) !== -1
+        const filetype = req.file.originalname.split('.')[req.file.originalname.split('.').length - 1]
+        const validType = 'xlsx'
         callback(null, validType)
     }
 })
@@ -30,12 +30,10 @@ var bufferStream = new stream.PassThrough();
 router.route('/')
     .post(auth({ loadUser: true }), upload.single('file'), (req, res, next) => {
         (async () => {
-            var exceltojson;
-            console.dir(req.file)
+           
+         
             if (!req.file) throw new Error('no file!')
-            if (req.file.originalname.split('.')[req.file.originalname.split('.').length - 1] === 'xlsx') {
-                exceltojson = xlsxtojson;
-            }
+            
             let filename = 'courses/' + Date.now() + '.' + req.file.originalname.split('.')[req.file.originalname.split('.').length - 1]
             //upload first,then turn into JSON,then save in db
 
@@ -47,42 +45,75 @@ router.route('/')
                     throw new Error(`something wrong when upload ${filename}`)
                 })
             if (uploadExcel.code === 200 || 304) {
-                console.log('xxxxxxx')
+                //upload successfully
 
-            }
-            try {
-                // exceltojson({
-                //     xlsx.parse(req.file.path),
-                //     output: null, //since we don't need output.json
-                //     lowerCaseHeaders:true
-                // }, function(err,result){
-                //     if(err) {
-                //         return res.json({error_code:1,err_desc:err, data: null});
-                //     } 
-                //     res.json({error_code:0,err_desc:null, data: result});
-                // });
-                var courseJSON = await xlsx.parse(req.file.path)
-                    .then(r => {
+                //const workSheetsFromFile = xlsx.parse('http://ov6ie3kzo.bkt.clouddn.com/' + filename)
+                const workSheetsFromFile = xlsx.parse(req.file.path)
+                var datas = workSheetsFromFile[0].data
+                var rObj = {}
+                datas.splice(0, 3)
+
+
+                datas.map(function (currentValue, index, array) {
+                    for (let i = 0; i < currentValue.length; i++) {
+
+                        if (currentValue[i]) {
+                            let newdata = currentValue[i].split('\n')
+                            if (newdata) {
+                                if (newdata[2]) {
+                                    rObj[newdata[1]] = newdata[2].replace(/\([^\)]*\)/, '')
+                                }
+
+                            }
+
+
+                        }
+
+                    }
+
+
+                })
+
+                console.dir(rObj)
+                for (let key in rObj) {
+                    console.log(key)
+                   let course =  await Course.addCourse({
+                        userId: ObjectId(req.user._id),
+                        course: key,
+                        teacher: rObj[key]
 
                     })
-                    .catch(e => {
+                    
+                }
+                let courses = await Course.getCourseName(ObjectId(req.user._id))
+                return {
+                    code: 0,
+                    userId: req.user._id,
+                    courses: courses,
+                  }
 
-                    })
-            } catch (e) {
-                res.json({ error_code: 1, err_desc: "Corupted excel file" });
+
+               
+
+
+
+
             }
+
 
 
         })()
             .then(data => {
                 res.json(data)
             })
-            // .then(fs.unlink(req.file.path, (err)=>{//上传完成后删除服务器上的文件
-            //    if (err) { throw new Error(err)}
+            .then(fs.unlink(req.file.path, (err)=>{//上传完成后删除服务器上的文件
+              if (err) { throw new Error(err)}
 
-            // }))
+            }))
             .catch(err => {
                 next(err)
             })
 
     })
+
+module.exports = router;

@@ -5,7 +5,7 @@ const logger = require('../../utils/logger').logger
 const { ObjectId } = Schema.Types
 
 const CourseSchema = Schema({
-  userId: { type: String, index: 1 },
+  userId: { type: ObjectId, index: 1 },
   course: { type: String },
   teacher: { type: String }
 
@@ -22,7 +22,7 @@ async function addCourse(params) {
 
   return await newCourse.save()
     .catch(e => {
-      throw new Error(`error ${params.stuId} creating topic `)
+      throw new Error(`error ${params.userId} adding course `)
     })
 }
 
@@ -38,20 +38,30 @@ async function findStuByCourseName(courseName) {
   return course[0].stuId
 }
 
-async function getCourseName(stuId) {
-  let flow = CourseModel.find({ stuId: stuId })
+async function getCourseName(userId) {
+  let flow = CourseModel.find({ userId: userId })
   flow.select({ "course": 1, "_id": 0 })
 
   return await flow
     .catch(e => {
       console.log(e)
-      throw new Error('error getting topics from db')
+      throw new Error('error getting course from db')
     })
 }
-
+async function getCourses(params = { page: 0, pageSize: 10 }) {
+  let flow = CourseModel.find({})
+  flow.skip(params.page * params.pageSize)
+  flow.limit(params.pageSize)
+  return await flow
+      .catch(e => {
+          console.log(e)
+          throw new Error('error getting users from db')
+      })
+}
 module.exports = {
   CourseModel,
   addCourse,
   findStuByCourseName,
   getCourseName,
+  getCourses,
 }
