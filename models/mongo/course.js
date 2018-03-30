@@ -28,19 +28,19 @@ async function addCourse(params) {
 
 async function findStuByCourseName(courseName) {
   const course = await CourseModel.find({ course: courseName })
-    .select({ "stuId": 1, "_id": 0 })
+    .select({ "userId": 1, "_id": 0 })
     .catch(e => {
-      const errorMsg = 'error finding student'
+      const errorMsg = 'error finding user'
       logger.error(errorMsg, { err: e.stack || e })
       throw new Errors.InternalError(errorMsg)
     })
 
-  return course[0].stuId
+  return course[0].userId
 }
 
-async function getCourseName(userId) {
+async function getCourseByuserId(userId) {
   let flow = CourseModel.find({ userId: userId })
-  flow.select({ "course": 1, "_id": 0 })
+  flow.select({ "course": 1,"teacher":1, "_id": 0 })
 
   return await flow
     .catch(e => {
@@ -62,6 +62,6 @@ module.exports = {
   CourseModel,
   addCourse,
   findStuByCourseName,
-  getCourseName,
+  getCourseByuserId,
   getCourses,
 }

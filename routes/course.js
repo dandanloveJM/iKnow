@@ -17,7 +17,8 @@ const upload = multer({
     },
     fileFilter: function (req, files, callback) {
         //只能上传xlsx格式的文件
-        const filetype = req.file.originalname.split('.')[req.file.originalname.split('.').length - 1]
+      
+        const filetype = files.originalname.split('.')[files.originalname.split('.').length - 1]
         const validType = 'xlsx'
         callback(null, validType)
     }
@@ -46,8 +47,8 @@ router.route('/')
                 })
             if (uploadExcel.code === 200 || 304) {
                 //upload successfully
-
-                //const workSheetsFromFile = xlsx.parse('http://ov6ie3kzo.bkt.clouddn.com/' + filename)
+                //const stream2 = fs.createReadStream('http://ov6ie3kzo.bkt.clouddn.com/' + filename)
+                //const workSheetsFromFile = xlsx.parse(fs.readFileSync('http://ov6ie3kzo.bkt.clouddn.com/' + filename))
                 const workSheetsFromFile = xlsx.parse(req.file.path)
                 var datas = workSheetsFromFile[0].data
                 var rObj = {}
@@ -74,9 +75,9 @@ router.route('/')
 
                 })
 
-                console.dir(rObj)
+                //console.dir(rObj)
                 for (let key in rObj) {
-                    console.log(key)
+                
                    let course =  await Course.addCourse({
                         userId: ObjectId(req.user._id),
                         course: key,
@@ -85,17 +86,12 @@ router.route('/')
                     })
                     
                 }
-                let courses = await Course.getCourseName(ObjectId(req.user._id))
+                let courses = await Course.getCourseByuserId(ObjectId(req.user._id))
                 return {
                     code: 0,
                     userId: req.user._id,
                     courses: courses,
                   }
-
-
-               
-
-
 
 
             }
@@ -106,10 +102,10 @@ router.route('/')
             .then(data => {
                 res.json(data)
             })
-            .then(fs.unlink(req.file.path, (err)=>{//上传完成后删除服务器上的文件
-              if (err) { throw new Error(err)}
+            // .then(fs.unlink(req.file.path, (err)=>{//上传完成后删除服务器上的文件
+            //   if (err) { throw new Error(err)}
 
-            }))
+            // }))
             .catch(err => {
                 next(err)
             })
