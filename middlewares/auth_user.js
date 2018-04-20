@@ -18,7 +18,7 @@ module.exports = function (options) {
       if (!obj || !obj._id || !obj.expire) throw new Error('No auth!')
       if (Date.now() - obj.expire > 0) throw new Error('Token expired!')
 
-      //ID改成了学号
+    
       if (options.loadJWTUser) req.user = obj //把JWT解析出的对象直接挂到req.user
       if (options.loadUser) req.user = await User.getUserById(obj._id) //把user从数据库中查出来
       

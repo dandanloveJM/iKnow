@@ -173,4 +173,20 @@ router.route('/')
 
     })
 
+    .get(auth({ loadUser: true }), (req, res, next)=>{
+        (async () => {
+            let courses = await Course.getCourseByuserId(req.user._id) 
+            return {
+              code: 0,
+              courses: courses,
+            }
+          })()
+            .then(r => {
+              res.json(r)
+            })
+            .catch(e => {
+              next(e)
+            })
+    })
+
 module.exports = router;
