@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema
+const { ObjectId } = Schema.Types
 
 const ReplySchema = new Schema({
     creator: Schema.Types.ObjectId,
     content: String,
-    createTime: {type: Number, default: Date.now().valueOf()}
+    createTime: { type: Number, default: Date.now().valueOf() }
 })
 
 const TopicSchema = new Schema({
@@ -12,9 +13,9 @@ const TopicSchema = new Schema({
     content: { type: String },
     title: { type: String },
     replyList: [ReplySchema],
-    tags: [{type: String}],
-    courseTag: {type: String},
-    createTime: {type: Number, default: Date.now().valueOf()}
+    tags: [{ type: String }],
+    courseTag: { type: String },
+    createTime: { type: Number, default: Date.now().valueOf() }
 })
 
 const TopicModel = mongoose.model('topic', TopicSchema)
@@ -26,7 +27,7 @@ async function createANewTopic(params) {
         title: params.title,
         content: params.content,
         tags: params.tags,
-        courseTag:params.courseTag
+        courseTag: params.courseTag
     },
         //{ $push: { tags: { content: params.tags } } },
     )
@@ -40,8 +41,8 @@ async function createANewTopic(params) {
 }
 
 
-async function getTopics (params = { page: 0, pageSize: 30 }) {
-    let flow = TopicModel.find({}).sort({_id:-1})
+async function getTopics(params = { page: 0, pageSize: 30 }) {
+    let flow = TopicModel.find({}).sort({ _id: -1 })
     flow.skip(params.page * params.pageSize)
     flow.limit(params.pageSize)
     return await flow
@@ -52,7 +53,7 @@ async function getTopics (params = { page: 0, pageSize: 30 }) {
 }
 
 
-async function getTopicById (topicId) {
+async function getTopicById(topicId) {
 
     return await TopicModel.find({ _id: topicId })
         .catch(e => {
