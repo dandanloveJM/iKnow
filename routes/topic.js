@@ -23,13 +23,24 @@ router.route('/')
 
     })
     /**
-   * @api {post} /topic
+   * @api {post} /topic create a new topic
    * @apiName  create a new topic
    * @apiGroup Topic
+   * @apiHeader {String} Content-Type application/x-www-form-urlencoded
+   * 
+   * @apiHeader {String} Authorization bearer `token`
+    
+    * @apiHeaderExample {json} Header-Example:
+    *    {
+    *       "Content-Type": "application/x-www-form-urlencoded",
+    *       "Authorization" : "bearer `token`"
+    *     }
+    * 
    *
    * @apiParam {String} title topic's title
    * @apiParam {Stirng} content topic's content
-   * @apiParam {String} tags topic's tags
+   * @apiParam {Array} tags topic's tags
+   * @apiParam {Stirng} courseTag topic's courseTag
    * 
    * @apiSuccess {Number} code 0 represents "successful repsonse"
    * @apiSuccess {Object} topic
@@ -40,14 +51,14 @@ router.route('/')
    *       "code": "0",
    *       
    *         "topic": {
-   *     "__v": 0,
-   *     "creator": "{ _id: 5abe3f7969c9d9111be87ef6,\n  name: 'dx',\n  email: '123@qq.com',\n  avatar: 'http://ov6ie3kzo.bkt.clouddn.com/image/avatar/1522430493115.png' }",
-   *     "title": "this is a question ",
-   *    "courseTag": "信息安全",
-   *     "_id": "5ad994dbe1e1291b2dd2e108",
-   *     "createTime": 1524208853430,
-   *     "tags": [],
-   *     "replyList": []
+   *            "__v": 0,
+   *            "creator": "{ _id: 5abe3f7969c9d9111be87ef6,\n  name: 'dx',\n  email: '123@qq.com',\n  avatar: 'http://ov6ie3kzo.bkt.clouddn.com/image/avatar/1522430493115.png' }",
+   *            "title": "this is a question ",
+   *            "courseTag": "信息安全",
+   *            "_id": "5ad994dbe1e1291b2dd2e108",
+   *            "createTime": 1524208853430,
+   *            "tags": [],
+   *            "replyList": []
    * }
    * 
    *        
@@ -90,7 +101,7 @@ router.route('/')
 
 router.route('/:topicId')
     /**
-       * @api {GET} /topic/:topicId
+       * @api {GET} /topic/:topicId get topic by id
        * @apiName  get topic by id
        * @apiGroup Topic
       
@@ -104,15 +115,15 @@ router.route('/:topicId')
        *       "code": "0",
        *       
        *         "topic": {
-       *     "__v": 0,
-       *     "creator": "{ _id: 5abe3f7969c9d9111be87ef6,\n  name: 'dx',\n  email: '123@qq.com',\n  avatar: 'http://ov6ie3kzo.bkt.clouddn.com/image/avatar/1522430493115.png' }",
-       *     "title": "this is a question ",
-       *    "courseTag": "信息安全",
-       *     "_id": "5ad994dbe1e1291b2dd2e108",
-       *     "createTime": 1524208853430,
-       *     "tags": [],
-       *     "replyList": []
-       * }
+       *            "__v": 0,
+       *            "creator": "{ _id: 5abe3f7969c9d9111be87ef6,\n  name: 'dx',\n  email: '123@qq.com',\n  avatar: 'http://ov6ie3kzo.bkt.clouddn.com/image/avatar/1522430493115.png' }",
+       *            "title": "this is a question ",
+       *            " courseTag": "信息安全",
+       *            "_id": "5ad994dbe1e1291b2dd2e108",
+       *            "createTime": 1524208853430,
+       *            "tags": [],
+       *            "replyList": []
+       *        }
        * 
        *        
        *     }
@@ -160,48 +171,56 @@ router.route('/:topicId')
     })
 
 router.route('/:topicId/reply')
-   /**
-       * @api {POST} /topic/:topicId/reply
-       * @apiName  reply topic
-       * @apiGroup Topic
-      
-       * 
-       * @apiSuccess {Number} code 0 represents "successful repsonse"
-       * @apiSuccess {Object} topic
-       *
-       * @apiSuccessExample Success-Response:
-       *     HTTP/1.1 200 OK
-       *     {
-       *       "code": "0",
-       *       
-       *         "topic": {
-       *     "__v": 0,
-       *     "creator": "{ _id: 5abe3f7969c9d9111be87ef6,\n  name: 'dx',\n  email: '123@qq.com',\n  avatar: 'http://ov6ie3kzo.bkt.clouddn.com/image/avatar/1522430493115.png' }",
-       *     "title": "this is a question ",
-       *    "courseTag": "信息安全",
-       *     "_id": "5ad994dbe1e1291b2dd2e108",
-       *     "createTime": 1524208853430,
-       *     "tags": [],
-       *     "replyList": [
-       * {
-       *         "content": "this is a reply",
-       *         "creator": "5abe3f7969c9d9111be87ef6",
-       *         "_id": "5ad99dd091dfaf2001add181",
-       *         "createTime": 1524211146040
-       *     }
-       *        ]
-       * }
-       * 
-       *        
-       *     }
-       *
-       * @apiError ErrorCreateUser Error get topic
-       * @apiErrorExample Error-Response:
-       *     HTTP/1.1 404 Not Found
-       *     {
-       *       "error": "UserNotFound"
-       *     }
-       */
+    /**
+        * @api {POST} /topic/:topicId/reply reply a topic
+        * @apiName  reply topic
+        * @apiGroup Topic
+        * @apiHeader {String} Content-Type application/x-www-form-urlencoded
+        * 
+        * @apiHeader {String} Authorization bearer `token`
+       
+        * @apiHeaderExample {json} Header-Example:
+         *    {
+         *       "Content-Type": "application/x-www-form-urlencoded",
+         *       "Authorization" : "bearer `token`"
+         *     }
+         * 
+        * @apiSuccess {Number} code 0 represents "successful repsonse"
+        * @apiSuccess {Object} topic
+        *
+        * @apiSuccessExample Success-Response:
+        *     HTTP/1.1 200 OK
+        *     {
+        *       "code": "0",
+        *       
+        *         "topic": {
+        *            "__v": 0,
+        *            "creator": "{ _id: 5abe3f7969c9d9111be87ef6,\n  name: 'dx',\n  email: '123@qq.com',\n  avatar: 'http://ov6ie3kzo.bkt.clouddn.com/image/avatar/1522430493115.png' }",
+        *            "title": "this is a question ",
+        *            "courseTag": "信息安全",
+        *            "_id": "5ad994dbe1e1291b2dd2e108",
+        *            "createTime": 1524208853430,
+        *            "tags": [],
+        *            "replyList": [
+        *            {
+        *                "content": "this is a reply",
+        *                "creator": "5abe3f7969c9d9111be87ef6",
+        *                "_id": "5ad99dd091dfaf2001add181",
+        *                "createTime": 1524211146040
+        *            }
+        *            ]
+        *        }
+        * 
+        *        
+        *     }
+        *
+        * @apiError ErrorCreateUser Error get topic
+        * @apiErrorExample Error-Response:
+        *     HTTP/1.1 404 Not Found
+        *     {
+        *       "error": "UserNotFound"
+        *     }
+        */
     .post(auth({ loadUser: true }), (req, res, next) => {
         (async () => {
 

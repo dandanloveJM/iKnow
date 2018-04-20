@@ -267,6 +267,33 @@
     "title": "create a new topic",
     "name": "create_a_new_topic",
     "group": "Topic",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Content-Type",
+            "description": "<p>application/x-www-form-urlencoded</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": "<p>bearer <code>token</code></p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example:",
+          "content": "{\n   \"Content-Type\": \"application/x-www-form-urlencoded\",\n   \"Authorization\" : \"bearer `token`\"\n }",
+          "type": "json"
+        }
+      ]
+    },
     "parameter": {
       "fields": {
         "Parameter": [
@@ -413,6 +440,33 @@
     "title": "reply a topic",
     "name": "reply_topic",
     "group": "Topic",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Content-Type",
+            "description": "<p>application/x-www-form-urlencoded</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": "<p>bearer <code>token</code></p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example:",
+          "content": "{\n   \"Content-Type\": \"application/x-www-form-urlencoded\",\n   \"Authorization\" : \"bearer `token`\"\n }",
+          "type": "json"
+        }
+      ]
+    },
     "success": {
       "fields": {
         "Success 200": [
