@@ -264,7 +264,7 @@ define({ "api": [
   {
     "type": "post",
     "url": "/topic",
-    "title": "",
+    "title": "create a new topic",
     "name": "create_a_new_topic",
     "group": "Topic",
     "parameter": {
@@ -347,7 +347,7 @@ define({ "api": [
   {
     "type": "GET",
     "url": "/topic/:topicId",
-    "title": "",
+    "title": "get topic by id",
     "name": "get_topic_by_id",
     "group": "Topic",
     "success": {
@@ -403,7 +403,7 @@ define({ "api": [
   {
     "type": "POST",
     "url": "/topic/:topicId/reply",
-    "title": "",
+    "title": "reply a topic",
     "name": "reply_topic",
     "group": "Topic",
     "success": {
