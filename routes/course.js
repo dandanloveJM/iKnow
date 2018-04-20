@@ -172,12 +172,69 @@ router.route('/')
             })
 
     })
+     /**
+       * @api {GET} /course  get student course by userId
+       * @apiName  get course
+       * @apiGroup Course
+       *
+       
+       * @apiHeader {String} Authorization bearer `token`
+        * 
+        * @apiHeaderExample {json} Header-Example:
+        *    {
+        *       "Authorization" : "bearer `token`"
+        *     }
+        * 
+       * @apiSuccess {Number} code 0 represents "successful repsonse"
+       * @apiSuccess {ObjectId} userId userId
+       * @apiSuccess {Array} courses  include coursename and teacher
+       *
+       * @apiSuccessExample Success-Response:
+       *     HTTP/1.1 200 OK
+       *     {
+       *        "code": 0,
+       *        "userId": "5abe3f7969c9d9111be87ef6",
+       *        "courses": [
+       *            {
+       *                "course": "多媒体技术及其应用",
+       *                "teacher": "阮新新"
+       *            },
+       *            {
+       *                "course": "信息安全",
+       *                "teacher": "刘雅琦"
+       *            },
+       *            {
+       *                 "course": "信息科学前沿",
+       *                "teacher": "叶焕倬"
+       *            },
+       *            {
+       *                "course": "网站与网页设计",
+       *                "teacher": "李玲"
+       *            },
+       *            {
+       *                 "course": "专业综合设计",
+       *                "teacher": "屈振新"
+       *             }
+       *            ]
+       *      }
+       *        
+       *     
+       *
+       * @apiError ErrorUploadAvatar Error uploading course
+       *
+       * @apiErrorExample Error-Response:
+       *     HTTP/1.1 404 Not Found
+       *     {
+       *       "error": "something wrong when upload course"
+       *     }
+       */
 
     .get(auth({ loadUser: true }), (req, res, next)=>{
         (async () => {
             let courses = await Course.getCourseByuserId(req.user._id) 
             return {
               code: 0,
+              userId: req.user._id,
               courses: courses,
             }
           })()

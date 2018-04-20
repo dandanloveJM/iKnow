@@ -1,5 +1,88 @@
 [
   {
+    "type": "GET",
+    "url": "/course",
+    "title": "get student course by userId",
+    "name": "get_course",
+    "group": "Course",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": "<p>bearer <code>token</code></p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example:",
+          "content": "{\n   \"Authorization\" : \"bearer `token`\"\n }",
+          "type": "json"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>0 represents &quot;successful repsonse&quot;</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "ObjectId",
+            "optional": false,
+            "field": "userId",
+            "description": "<p>userId</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Array",
+            "optional": false,
+            "field": "courses",
+            "description": "<p>include coursename and teacher</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n   \"code\": 0,\n   \"userId\": \"5abe3f7969c9d9111be87ef6\",\n   \"courses\": [\n       {\n           \"course\": \"多媒体技术及其应用\",\n           \"teacher\": \"阮新新\"\n       },\n       {\n           \"course\": \"信息安全\",\n           \"teacher\": \"刘雅琦\"\n       },\n       {\n            \"course\": \"信息科学前沿\",\n           \"teacher\": \"叶焕倬\"\n       },\n       {\n           \"course\": \"网站与网页设计\",\n           \"teacher\": \"李玲\"\n       },\n       {\n            \"course\": \"专业综合设计\",\n           \"teacher\": \"屈振新\"\n        }\n       ]\n }",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "ErrorUploadAvatar",
+            "description": "<p>Error uploading course</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"something wrong when upload course\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "routes/course.js",
+    "groupTitle": "Course"
+  },
+  {
     "type": "POST",
     "url": "/course",
     "title": "upload course",
