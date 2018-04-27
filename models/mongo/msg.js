@@ -10,8 +10,8 @@ const MSG_TYPES = {
 }
 
 const MsgSchema = Schema({
-  from: {type: String, required: true, index: true},
-  to: {type: String, required: true, index: true},
+  from: {type: ObjectId, required: true, index: true},
+  to: {type: ObjectId, required: true, index: true},
   content: {type: String, required: true},
   type: {type: String, enum: ['sys', 'user'], required: true},
   extra: {type: Schema.Types.Mixed},
@@ -40,7 +40,7 @@ async function createAMsg (from, to, content, type, extra) {
 
 //展示用户收到的私信
 async function listUserReceivedMsgs (query) {
-  const flow = MsgModel.find({to: query.stuId}).sort({_id:-1})
+  const flow = MsgModel.find({to: query.userId}).sort({_id:-1})
   const page = Number(query.page) || 0
   const pageSize = Number(query.pageSize) || 10
   flow.limit(pageSize)

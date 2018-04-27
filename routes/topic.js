@@ -2,7 +2,9 @@ const express = require('express');
 const router = express.Router();
 const Topic = require('../models/mongo/topic')
 const User = require('../models/mongo/user')
+const Course = require('../models/mongo/course')
 const auth = require('../middlewares/auth_user')
+const MsgService = require('../services/msg_service')
 
 /* localhost:8082/topic/ */
 router.route('/')
@@ -83,6 +85,13 @@ router.route('/')
                 tags: req.body.tags,
                 courseTag: req.body.courseTag
             })
+
+            
+            let userId = await Course.findStuByCourseName(topic.courseTag)
+           
+
+            let msg = await MsgService.sendAMsgBySys(req.user._id, userId, topic._id+';'+topic.title)
+
             return {
                 code: 0,
                 topic: topic,
