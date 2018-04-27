@@ -5,6 +5,7 @@ const User = require('../models/mongo/user')
 const Course = require('../models/mongo/course')
 const auth = require('../middlewares/auth_user')
 const MsgService = require('../services/msg_service')
+const LikeService = require('../services/like_service')
 
 /* localhost:8082/topic/ */
 router.route('/')
@@ -86,11 +87,11 @@ router.route('/')
                 courseTag: req.body.courseTag
             })
 
-            
-            let userId = await Course.findStuByCourseName(topic.courseTag)
-           
 
-            let msg = await MsgService.sendAMsgBySys(req.user._id, userId, topic._id+';'+topic.title)
+            let userId = await Course.findStuByCourseName(topic.courseTag)
+
+
+            let msg = await MsgService.sendAMsgBySys(req.user._id, userId, topic._id + ';' + topic.title)
 
             return {
                 code: 0,
@@ -252,4 +253,72 @@ router.route('/:topicId/reply')
 
 
     })
+
+router.route('/:id/like')
+    .get(auth({ loadJWTUser: true }), (req, res, next) => {
+
+        (async () => {
+            await LikeService.likeTopic(req.user._id, req.params.id)
+            return {
+                code: 0,
+            }
+        })()
+            .then(r => {
+                res.json(r)
+            })
+            .catch(e => {
+                next(e) 
+            })
+    })
+
+
+router.route('/:id/dislike')
+    .get(auth({ loadJWTUser: true }), (req, res, next) => {
+
+        (async () => {
+            await LikeService.dislikeTopic(req.user._id, req.params.id)
+            return {
+                code: 0,
+            }
+        })()
+            .then(r => {
+                res.json(r)
+            })
+            .catch(e => {
+                next(e)
+            })
+    })
+
+router.route('/:id/reply/:replyId/like')
+    .get(auth({ loadJWTUser: true }), (req, res, next) => {
+        (async () => {
+            await LikeService.likeReply(req.user._id, req.params.replyId)
+            return {
+                code: 0,
+            }
+        })()
+            .then(r => {
+                res.json(r)
+            })
+            .catch(e => {
+                next(e)
+            })
+    })
+
+router.route('/:id/reply/:replyId/dislike')
+    .get(auth({ loadJWTUser: true }), (req, res, next) => {
+        (async () => {
+            await LikeService.dislikeReply(req.user._id, req.params.replyId)
+            return {
+                code: 0,
+            }
+        })()
+            .then(r => {
+                res.json(r)
+            })
+            .catch(e => {
+                next(e)
+            })
+    })
+
 module.exports = router;

@@ -5,6 +5,7 @@ const Like = require('../models/mongo/like')
 const {ObjectId} = require('mongoose').Types
 const PointService = require('./point_service')
 
+//userId user who likes  attachedId: user whose topic is liked.
 async function likeTopic (userId, attachedId) {
   await Like.like(ObjectId(userId), ObjectId(attachedId), Like.LIKE_TYPES.TOPIC)
   await Topic.likeATopic(attachedId)

@@ -15,7 +15,8 @@ const UserSchema = new Schema({
     avatar: { type: String },
     points: { type: Number },
     course: { type: String },
-    teacher: { type: String }
+    teacher: { type: String },
+    points: Number,
 })
 //password在创建用户之后不返回显示出来，0表示不显示，phoneNUmber表示降序排列
 //类似的功能还有在问题列表页时，问题的replylist也不用显示
