@@ -1,14 +1,14 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const Errors = require('../../errors')
-const logger = require('../../utils/logger')
+const logger = require('../../utils/logger').logger
 const {ObjectId} = Schema.Types
 
 const PointsOpSchema = Schema({
     userId:{type:ObjectId, required:true, index:true},
     points:{type:Number, required:true},
     timeStamp:{type:Number, default:Date.now().valueOf()},
-    type:{type: String, enum:['like, dislike, reply']},
+    type:{type: String, enum:['like', 'dislike', 'reply']},
 })
 
 const POINTS_OP_TYPES = {
@@ -17,7 +17,7 @@ const POINTS_OP_TYPES = {
     REPLY:'reply'
 }
 
-const PointsOpModel = mongoose.model('point', PointsOPSchema)
+const PointsOpModel = mongoose.model('point', PointsOpSchema)
 
 async function createPointsOp(userId, type, points){
     const op = await PointsOpModel.create({
@@ -36,5 +36,6 @@ async function createPointsOp(userId, type, points){
 module.exports = {
     model: PointsOpModel,
     createPointsOp: createPointsOp,
+    POINTS_OP_TYPES
 
 }

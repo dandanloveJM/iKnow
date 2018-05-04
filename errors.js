@@ -41,14 +41,14 @@ class DuplicateUsernameError extends ValidationError {
     }
 }
 
-class NeverLikedError extends BaseHTTPError {
+class NeverLikedError extends BaseHttpError {
     constructor(userId, attachedId) {
         const msg = `user ${userId} never liked content ${attachedId}, but called dislike`
         super(`never liked error: ${msg}`, 6000001, 400, '还没有点过赞呢，不能取消呦')
     }
 }
 
-class AlreadyLikedError extends BaseHTTPError {
+class AlreadyLikedError extends BaseHttpError {
     constructor(userId, attachedId) {
         const msg = `user ${userId} already liked content ${attachedId}, but called like`
         super(`already liked error: ${msg}`, 6000002, 400, '已经点过赞啦')

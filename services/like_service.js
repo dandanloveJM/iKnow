@@ -1,6 +1,6 @@
 const User = require('../models/mongo/user')
 const Topic = require('../models/mongo/topic')
-const PointsOp = require('../models/mongo/points_op')
+const PointsOp = require('../models/mongo/point')
 const Like = require('../models/mongo/like')
 const {ObjectId} = require('mongoose').Types
 const PointService = require('./point_service')
@@ -9,6 +9,7 @@ const PointService = require('./point_service')
 async function likeTopic (userId, attachedId) {
   await Like.like(ObjectId(userId), ObjectId(attachedId), Like.LIKE_TYPES.TOPIC)
   await Topic.likeATopic(attachedId)
+  console.log(userId)
   await PointService.incrUserPoints(ObjectId(userId), 10, PointsOp.POINTS_OP_TYPES.LIKE)
   return true
 }

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const Errors = require('../../errors')
-const logger = require('../../utils/logger')
+const logger = require('../../utils/logger').logger
 const { ObjectId } = Schema.Types
 
 const LIKE_TYPES = {
@@ -13,7 +13,7 @@ const LIKE_TYPES = {
 const LikeSchema = Schema({
     attachedId: { type: ObjectId, required: true, index: true },
     userId: { type: ObjectId, required: true, index: true },
-    type: { type: String, enum: ['topic, reply, user'] },
+    type: { type: String, enum: ['topic','reply','user'] },
     ts: { type: Number, default: Date.now().valueOf() }
 
 })
