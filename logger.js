@@ -18,6 +18,7 @@ const logger = new winston.Logger({
         
     ]
 })
+<<<<<<< HEAD:utils/logger.js
 
 const reqLogger = new winston.Logger({
     transports: [
@@ -41,3 +42,9 @@ module.exports = {
     logger,
     reqLogger,
 }
+=======
+
+logger.info('hello')
+logger.error('some error')
+module.exports = logger
+>>>>>>> parent of b332854... 删掉express自带的打日志模块:logger.js

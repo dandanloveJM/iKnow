@@ -9,17 +9,15 @@ const PointService = require('./point_service')
 async function likeTopic (userId, attachedId) {
   await Like.like(ObjectId(userId), ObjectId(attachedId), Like.LIKE_TYPES.TOPIC)
   await Topic.likeATopic(attachedId)
-  let topicCreator = await Topic.getTopicCreator(attachedId)
-  await PointService.incrUserPoints(topicCreator, 10, PointsOp.POINTS_OP_TYPES.LIKE)
+  console.log(userId)
+  await PointService.incrUserPoints(ObjectId(userId), 10, PointsOp.POINTS_OP_TYPES.LIKE)
   return true
 }
 
 async function likeReply (userId, attachedId) {
+  await PointService.incrUserPoints(ObjectId(userId), 10, PointsOp.POINTS_OP_TYPES.LIKE)
   await Like.like(ObjectId(userId), ObjectId(attachedId), Like.LIKE_TYPES.REPLY)
   await Topic.likeAReply(attachedId)
-  let replyCreator = await Topic.getReplyCreator(attachedId)
-  await PointService.incrUserPoints(replyCreator, 10, PointsOp.POINTS_OP_TYPES.LIKE)
- 
   return true
 }
 
