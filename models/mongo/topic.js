@@ -24,7 +24,7 @@ const TopicSchema = new Schema({
 const TopicModel = mongoose.model('topic', TopicSchema)
 
 async function createANewTopic(params) {
-    console.log(params.tags)
+  
     const topic = new TopicModel({
         creator: params.creator,
         title: params.title,
@@ -122,6 +122,24 @@ async function dislikeAReply (replyId){
     return reply.likes
 }
 
+async function getTopicCreator(topicId){
+    const topic = await TopicModel.findOne({"_id": topicId}, {"creator": 1})
+   
+    let creator = topic.creator.split('\n') // 因为数据库里的creator是字符串类型的所以要这样做
+    return creator[0].substring(7, creator[0].length-1)
+    // let creator = topic.creator
+    // let creatorId = topic.creator['_id']
+    // return creatorId
+
+}
+
+async function getReplyCreator(replyId){
+    const topic = await TopicModel.findOne({"replyList._id": replyId}, {"replyList._id":1, "replyList.creator": 1})
+    const reply = topic.replyList.find(e=>e._id.toString() === replyId.toString())
+    let a = reply.creator
+    return reply.creator
+
+}
 
 module.exports = {
     TopicModel,
@@ -135,4 +153,6 @@ module.exports = {
     likeAReply,
     dislikeAReply,
     dislikeATopic,
+    getTopicCreator,
+    getReplyCreator
 }
