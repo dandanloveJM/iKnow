@@ -6,6 +6,53 @@ const logger = require('../utils/logger').logger
 
 router
   .route('/')
+/**
+ * @api {get} /msg  Get User Received Msg
+ * @apiName GetUserMsg
+ * @apiGroup Msg
+ *
+ 
+   * 
+   * @apiHeader {String} Authorization bearer `token`
+    
+    * @apiHeaderExample {json} Header-Example:
+    *    {
+    *       "Authorization" : "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YWJlM2Y3OTY5YzlkOTExMWJlODdlZjYiLCJpYXQiOjE1MjU0MTU2MzIwNTQsImV4cGlyZSI6MTUyNTUwMjAzMjA1NH0.kafI-1f8ocvF-AjABkPvkknLq7l2tKKAm7plGViHDD4"
+    *     }
+    * 
+   *
+   * 
+ * 
+ *
+ * @apiSuccess {Number} code  0-success
+  * @apiSuccess {Array} msgs  user received msgs
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "code": 0,
+ *        "msgs": [
+  *        {
+ *           "_id": "5aec014ec3c03a421183901f",
+ *           "from": "5abe460346771c6bf8069a19",
+ *           "to": "5abe460346771c6bf8069a19",
+ *           "content": "5aec014ec3c03a421183901e;this is a question about how to find paper",
+ *           "type": "sys",
+ *           "__v": 0,
+ *           "createTime": 1525415101600
+ *         }
+ *     ]
+ *     }
+ *
+ * @apiError UserNotFound The id of the User was not found.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found
+ *     {
+ *       "error": "UserNotFound"
+ *     }
+ */
+
   //get user all received messages
   .get(auth({ loadJWTUser: true }), (req, res, next) => {
     (async () => {
@@ -37,6 +84,57 @@ router
         //response(req, res)
       })
   })
+
+  /**
+ * @api {POST} /msg  send msg to user
+ * @apiName SendUserMsg
+ * @apiGroup Msg
+ *
+ 
+   * 
+   * @apiHeader {String} Authorization bearer `token`
+   * @apiHeader {String} Content-Type application/x-www-form-urlencoded
+    
+    * @apiHeaderExample {json} Header-Example:
+    *    {
+    *       "Content-Type": "application/x-www-form-urlencoded"
+    *       "Authorization" : "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YWJlM2Y3OTY5YzlkOTExMWJlODdlZjYiLCJpYXQiOjE1MjU0MTU2MzIwNTQsImV4cGlyZSI6MTUyNTUwMjAzMjA1NH0.kafI-1f8ocvF-AjABkPvkknLq7l2tKKAm7plGViHDD4"
+    *     }
+    * 
+   *
+   * 
+ * 
+ *
+ * @apiSuccess {Number} code  0-success
+  * @apiSuccess {Array} msg  user send the  msg
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "code": 0,
+ *        "msg":
+  *        {
+ *           "_id": "5aec014ec3c03a421183901f",
+ *           "from": "5abe460346771c6bf8069a19",
+ *           "to": "5abe460346771c6bf8069a19",
+ *           "content": "5aec014ec3c03a421183901e;this is a question about how to find paper",
+ *           "type": "user",
+ *           "__v": 0,
+ *           "createTime": 1525415101600
+ *         }
+ *     
+ *     }
+ *
+ * @apiError UserNotFound The id of the User was not found.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found
+ *     {
+ *       "error": "UserNotFound"
+ *     }
+ */
+
+
   .post(auth({ loadJWTUser: true }), (req, res, next) => {
     (async () => {
       const userId = req.user._id  
