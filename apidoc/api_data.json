@@ -422,9 +422,107 @@
   },
   {
     "type": "GET",
+    "url": "/topic/:topicId/:replyId/dislike",
+    "title": "user dislike a reply",
+    "name": "DisikeAReply",
+    "group": "Topic",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>0 represents &quot;successful repsonse&quot;</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n  \"code\": \"0\",     \n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "ErrorCreateUser",
+            "description": "<p>Error get topic</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"UserNotFound\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "routes/topic.js",
+    "groupTitle": "Topic"
+  },
+  {
+    "type": "GET",
     "url": "/topic/:topicId/dislike",
     "title": "user dislike a topic",
     "name": "DislikeATopic",
+    "group": "Topic",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>0 represents &quot;successful repsonse&quot;</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n  \"code\": \"0\",     \n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "ErrorCreateUser",
+            "description": "<p>Error get topic</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"UserNotFound\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "routes/topic.js",
+    "groupTitle": "Topic"
+  },
+  {
+    "type": "GET",
+    "url": "/topic/:topicId/:replyId/like",
+    "title": "user like a reply",
+    "name": "LikeAReply",
     "group": "Topic",
     "success": {
       "fields": {
