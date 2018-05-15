@@ -141,6 +141,16 @@ async function getReplyCreator(replyId){
 
 }
 
+async function findTopic(word){
+    let regex = new RegExp(escapeRegex(word), 'gi')
+    let topics = await TopicModel.find({'courseTag': regex})
+    return topics
+}
+
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
+
 module.exports = {
     TopicModel,
     createANewTopic,
@@ -154,5 +164,6 @@ module.exports = {
     dislikeAReply,
     dislikeATopic,
     getTopicCreator,
-    getReplyCreator
+    getReplyCreator,
+    findTopic
 }

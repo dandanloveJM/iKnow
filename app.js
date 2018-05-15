@@ -11,6 +11,7 @@ const topicRouter = require('./routes/topic')
 const courseRouter = require('./routes/course')
 const favicons = require('connect-favicons')
 const msgRouter = require('./routes/msg')
+const searchRouter = require('./routes/search')
 require('./services/mongoose_service.js')
 
 
@@ -36,6 +37,7 @@ app.use('/user', users);
 app.use('/topic', topicRouter)
 app.use('/course', courseRouter)
 app.use('/msg', msgRouter)
+app.use('/search', searchRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

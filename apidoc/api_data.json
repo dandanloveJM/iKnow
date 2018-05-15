@@ -262,6 +262,263 @@
     "groupTitle": "Index"
   },
   {
+    "type": "get",
+    "url": "/msg",
+    "title": "Get User Received Msg",
+    "name": "GetUserMsg",
+    "group": "Msg",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": "<p>bearer <code>token</code></p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example:",
+          "content": "{\n   \"Authorization\" : \"bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YWJlM2Y3OTY5YzlkOTExMWJlODdlZjYiLCJpYXQiOjE1MjU0MTU2MzIwNTQsImV4cGlyZSI6MTUyNTUwMjAzMjA1NH0.kafI-1f8ocvF-AjABkPvkknLq7l2tKKAm7plGViHDD4\"\n }",
+          "type": "json"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>0-success</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Array",
+            "optional": false,
+            "field": "msgs",
+            "description": "<p>user received msgs</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n  \"code\": 0,\n   \"msgs\": [\n   {\n      \"_id\": \"5aec014ec3c03a421183901f\",\n      \"from\": \"5abe460346771c6bf8069a19\",\n      \"to\": \"5abe460346771c6bf8069a19\",\n      \"content\": \"5aec014ec3c03a421183901e;this is a question about how to find paper\",\n      \"type\": \"sys\",\n      \"__v\": 0,\n      \"createTime\": 1525415101600\n    }\n]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "UserNotFound",
+            "description": "<p>The id of the User was not found.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"UserNotFound\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "routes/msg.js",
+    "groupTitle": "Msg"
+  },
+  {
+    "type": "POST",
+    "url": "/msg",
+    "title": "send msg to user",
+    "name": "SendUserMsg",
+    "group": "Msg",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": "<p>bearer <code>token</code></p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Content-Type",
+            "description": "<p>application/x-www-form-urlencoded</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example:",
+          "content": "{\n   \"Content-Type\": \"application/x-www-form-urlencoded\"\n   \"Authorization\" : \"bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YWJlM2Y3OTY5YzlkOTExMWJlODdlZjYiLCJpYXQiOjE1MjU0MTU2MzIwNTQsImV4cGlyZSI6MTUyNTUwMjAzMjA1NH0.kafI-1f8ocvF-AjABkPvkknLq7l2tKKAm7plGViHDD4\"\n }",
+          "type": "json"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>0-success</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Array",
+            "optional": false,
+            "field": "msg",
+            "description": "<p>user send the  msg</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n  \"code\": 0,\n   \"msg\":\n   {\n      \"_id\": \"5aec014ec3c03a421183901f\",\n      \"from\": \"5abe460346771c6bf8069a19\",\n      \"to\": \"5abe460346771c6bf8069a19\",\n      \"content\": \"5aec014ec3c03a421183901e;this is a question about how to find paper\",\n      \"type\": \"user\",\n      \"__v\": 0,\n      \"createTime\": 1525415101600\n    }\n\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "UserNotFound",
+            "description": "<p>The id of the User was not found.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"UserNotFound\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "routes/msg.js",
+    "groupTitle": "Msg"
+  },
+  {
+    "type": "GET",
+    "url": "/topic/:topicId/dislike",
+    "title": "user dislike a topic",
+    "name": "DislikeATopic",
+    "group": "Topic",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>0 represents &quot;successful repsonse&quot;</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n  \"code\": \"0\",     \n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "ErrorCreateUser",
+            "description": "<p>Error get topic</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"UserNotFound\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "routes/topic.js",
+    "groupTitle": "Topic"
+  },
+  {
+    "type": "GET",
+    "url": "/topic/:topicId/like",
+    "title": "user like a topic",
+    "name": "LikeATopic",
+    "group": "Topic",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>0 represents &quot;successful repsonse&quot;</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n  \"code\": \"0\",     \n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "ErrorCreateUser",
+            "description": "<p>Error get topic</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"UserNotFound\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "routes/topic.js",
+    "groupTitle": "Topic"
+  },
+  {
     "type": "post",
     "url": "/topic",
     "title": "create a new topic",

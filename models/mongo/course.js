@@ -26,6 +26,25 @@ async function addCourse(params) {
     })
 }
 
+async function findStuByFuzzyCourseName(keyword) {
+  let regex = new RegExp(escapeRegex(keyword), 'gi')
+  let flow = CourseModel.find({ course: regex })
+  flow.select({ "course": 1,"userId":1, "_id": 0 })
+
+  return await flow
+    .catch(e => {
+      const errorMsg = 'error finding user'
+      logger.error(errorMsg, { err: e.stack || e })
+      throw new Errors.InternalError(errorMsg)
+    })
+  
+}
+
+
+function escapeRegex(text) {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
+
 async function findStuByCourseName(courseName) {
   const course = await CourseModel.find({ course: courseName })
     .select({ "userId": 1, "_id": 0 })
@@ -64,4 +83,5 @@ module.exports = {
   findStuByCourseName,
   getCourseByuserId,
   getCourses,
+  findStuByFuzzyCourseName
 }
