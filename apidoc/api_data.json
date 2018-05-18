@@ -873,6 +873,69 @@
     "groupTitle": "Topic"
   },
   {
+    "type": "GET",
+    "url": "/search",
+    "title": "search topic",
+    "name": "search_topic",
+    "group": "Topic",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>0 represents &quot;successful repsonse&quot;</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Topics",
+            "optional": false,
+            "field": "topic",
+            "description": ""
+          },
+          {
+            "group": "Success 200",
+            "type": "Users",
+            "optional": false,
+            "field": "users",
+            "description": "<p>related to the topic</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "   HTTP/1.1 200 OK\n   {\n     \"code\": \"0\",\n     \n       \"topics\": [{\n          \"__v\": 0,\n          \"creator\": \"{ _id: 5abe3f7969c9d9111be87ef6,\\n  name: 'dx',\\n  email: '123@qq.com',\\n  avatar: 'http://ov6ie3kzo.bkt.clouddn.com/image/avatar/1522430493115.png' }\",\n          \"title\": \"this is a question \",\n          \" courseTag\": \"信息安全\",\n          \"_id\": \"5ad994dbe1e1291b2dd2e108\",\n          \"createTime\": 1524208853430,\n          \"tags\": [],\n          \"replyList\": []\n      }]\n users\": [\n{\n   \"_id\": \"5abdf9c82294d31df055b4e9\",\n   \"name\": \"dandan\",\n   \"email\": \"834921748@qq.com\",\n   \"points\": 30\n}\n]\n\n      \n   }",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "ErrorCreateUser",
+            "description": "<p>Error get topic</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"UserNotFound\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "routes/search.js",
+    "groupTitle": "Topic"
+  },
+  {
     "type": "get",
     "url": "/user/",
     "title": "Request All Users information",
