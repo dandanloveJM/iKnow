@@ -1,5 +1,3 @@
-import { userInfo } from 'os';
-
 const express = require('express');
 const router = express.Router();
 const Topic = require('../models/mongo/topic')
