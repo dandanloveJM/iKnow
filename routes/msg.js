@@ -102,7 +102,13 @@ router
     *     }
     * 
    *
-   * 
+   *  @apiParam {String} content
+   * @apiParam {ObjectID} to
+ * @apiParamExample 
+ *     {
+ *       "content": "hello"
+ *       "to": '5aebfe50c3c03a4211839012'
+ *     }
  * 
  *
  * @apiSuccess {Number} code  0-success
