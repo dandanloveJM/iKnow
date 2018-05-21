@@ -370,6 +370,33 @@ define({ "api": [
         }
       ]
     },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "content",
+            "description": ""
+          },
+          {
+            "group": "Parameter",
+            "type": "ObjectID",
+            "optional": false,
+            "field": "to",
+            "description": ""
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "{",
+          "content": "{\n  \"content\": \"hello\"\n  \"to\": '5aebfe50c3c03a4211839012'\n}",
+          "type": "json"
+        }
+      ]
+    },
     "success": {
       "fields": {
         "Success 200": [

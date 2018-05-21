@@ -8,6 +8,7 @@ const Errors = require('./errors.js')
 var index = require('./routes/index');
 var users = require('./routes/user');
 const topicRouter = require('./routes/topic')
+const tagRouter = require('./routes/tag')
 const courseRouter = require('./routes/course')
 const favicons = require('connect-favicons')
 const msgRouter = require('./routes/msg')
@@ -38,6 +39,7 @@ app.use('/topic', topicRouter)
 app.use('/course', courseRouter)
 app.use('/msg', msgRouter)
 app.use('/search', searchRouter)
+app.use('/tag', tagRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
