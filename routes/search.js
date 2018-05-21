@@ -60,15 +60,15 @@ router.route('/')
             let topics = await Topic.findTopic(word)
             let users = await Course.findStuByFuzzyCourseName(word)
             let userinfos = []
-            users.forEach
-            for(let i = 0; i < users; i++){
+         
+            for(let i = 0; i < users.length; i++){
                 let userinfo = await User.getUserById( users[i].userId)
                 userinfos.push(userinfo)
             }
             return {
                 code: 0,
                 topics: topics,
-                users: userInfos
+                users: userinfos
             }
         })()
             .then(r => {
