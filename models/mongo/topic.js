@@ -1,9 +1,11 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema
 const { ObjectId } = Schema.Types
+const User = require('./user')
 
 const ReplySchema = new Schema({
     creator: Schema.Types.ObjectId,
+    creatorName: String,
     content: String,
     createTime: { type: Number, default: Date.now().valueOf() },
     likes: {type: Number, default: 0}
@@ -75,13 +77,16 @@ async function updateTopicById(topicId, update) {
 }
 
 async function replyATopic(params) {
-    return await TopicModel.findOneAndUpdate({ _id: params.topicId },
-        { $push: { replyList: { creator: params.creator, content: params.content } } },
+    let user = await User.getUserById(params.creator)
+    let topic =  await TopicModel.findOneAndUpdate({ _id: params.topicId },
+        { $push: { replyList: { creator: params.creator, creatorName: user.name, content: params.content } } },
         { new: true })
         .catch(e => {
 
             throw new Error(`error reply topic ${params.topicId}`)
         })
+
+        return topic
 }
 
 async function tagATopic(params) {
