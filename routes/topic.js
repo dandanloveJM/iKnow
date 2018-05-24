@@ -9,42 +9,42 @@ const LikeService = require('../services/like_service')
 
 /* localhost:8082/topic/ */
 router.route('/')
- /**
-   * @api {post} /topic create a new topic
-   * @apiName  create a new topic
-   * @apiGroup Topic
- 
-   * 
-   * @apiSuccess {Number} code 0 represents "successful repsonse"
-   * @apiSuccess {Object} topic
-   *
-   * @apiSuccessExample Success-Response:
-   *     HTTP/1.1 200 OK
-   *     {
-   *       "code": "0",
-   *       
-   *         "topics": {
-   *            "__v": 0,
-   *            "creator": "{ _id: 5abe3f7969c9d9111be87ef6,\n  name: 'dx',\n  email: '123@qq.com',\n  avatar: 'http://ov6ie3kzo.bkt.clouddn.com/image/avatar/1522430493115.png' }",
-   *            "title": "this is a question ",
-   *            "courseTag": "信息安全",
-   *            "_id": "5ad994dbe1e1291b2dd2e108",
-   *            "createTime": 1524208853430,
-   *            "tags": [],
-   *            "replyList": []
-   * }
-   * 
-   *        
-   *     }
-   *
-   * @apiError ErrorCreateUser Error creating user 
-   *
-   * @apiErrorExample Error-Response:
-   *     HTTP/1.1 404 Not Found
-   *     {
-   *       "error": "UserNotFound"
-   *     }
-   */
+    /**
+      * @api {post} /topic create a new topic
+      * @apiName  create a new topic
+      * @apiGroup Topic
+    
+      * 
+      * @apiSuccess {Number} code 0 represents "successful repsonse"
+      * @apiSuccess {Object} topic
+      *
+      * @apiSuccessExample Success-Response:
+      *     HTTP/1.1 200 OK
+      *     {
+      *       "code": "0",
+      *       
+      *         "topics": {
+      *            "__v": 0,
+      *            "creator": "{ _id: 5abe3f7969c9d9111be87ef6,\n  name: 'dx',\n  email: '123@qq.com',\n  avatar: 'http://ov6ie3kzo.bkt.clouddn.com/image/avatar/1522430493115.png' }",
+      *            "title": "this is a question ",
+      *            "courseTag": "信息安全",
+      *            "_id": "5ad994dbe1e1291b2dd2e108",
+      *            "createTime": 1524208853430,
+      *            "tags": [],
+      *            "replyList": []
+      * }
+      * 
+      *        
+      *     }
+      *
+      * @apiError ErrorCreateUser Error creating user 
+      *
+      * @apiErrorExample Error-Response:
+      *     HTTP/1.1 404 Not Found
+      *     {
+      *       "error": "UserNotFound"
+      *     }
+      */
     .get((req, res, next) => {
         (async () => {
             let topics = await Topic.getTopics()
@@ -124,10 +124,12 @@ router.route('/')
             })
 
 
-            let userId = await Course.findStuByCourseName(topic.courseTag)
+            let users = await Course.findStuByCourseName(topic.courseTag)
 
-
-            let msg = await MsgService.sendAMsgBySys(req.user._id, userId, topic._id + ';' + topic.title)
+            for (let i = 0; i < users.length; i++) {
+                let msg = await MsgService.sendAMsgBySys(req.user._id, users[i].userId, topic._id + ';' + topic.title)
+            }
+            
 
             return {
                 code: 0,
@@ -289,31 +291,31 @@ router.route('/:topicId/reply')
 
 
     })
-    
+
 
 router.route('/:id/like')
-/**
-       * @api {GET} /topic/:topicId/like user like a topic
-       * @apiName  LikeATopic
-       * @apiGroup Topic
-      
-       * 
-       * @apiSuccess {Number} code 0 represents "successful repsonse"
-       
-       *
-       * @apiSuccessExample Success-Response:
-       *     HTTP/1.1 200 OK
-       *     {
-       *       "code": "0",     
-       *     }
-       *
-       * @apiError ErrorCreateUser Error get topic
-       * @apiErrorExample Error-Response:
-       *     HTTP/1.1 404 Not Found
-       *     {
-       *       "error": "UserNotFound"
-       *     }
-       */
+    /**
+           * @api {GET} /topic/:topicId/like user like a topic
+           * @apiName  LikeATopic
+           * @apiGroup Topic
+          
+           * 
+           * @apiSuccess {Number} code 0 represents "successful repsonse"
+           
+           *
+           * @apiSuccessExample Success-Response:
+           *     HTTP/1.1 200 OK
+           *     {
+           *       "code": "0",     
+           *     }
+           *
+           * @apiError ErrorCreateUser Error get topic
+           * @apiErrorExample Error-Response:
+           *     HTTP/1.1 404 Not Found
+           *     {
+           *       "error": "UserNotFound"
+           *     }
+           */
     .get(auth({ loadJWTUser: true }), (req, res, next) => {
 
         (async () => {
@@ -326,34 +328,34 @@ router.route('/:id/like')
                 res.json(r)
             })
             .catch(e => {
-                next(e) 
+                next(e)
             })
     })
 
 
 router.route('/:id/dislike')
-/**
-       * @api {GET} /topic/:topicId/dislike user dislike a topic
-       * @apiName  DislikeATopic
-       * @apiGroup Topic
-      
-       * 
-       * @apiSuccess {Number} code 0 represents "successful repsonse"
-       
-       *
-       * @apiSuccessExample Success-Response:
-       *     HTTP/1.1 200 OK
-       *     {
-       *       "code": "0",     
-       *     }
-       *
-       * @apiError ErrorCreateUser Error get topic
-       * @apiErrorExample Error-Response:
-       *     HTTP/1.1 404 Not Found
-       *     {
-       *       "error": "UserNotFound"
-       *     }
-       */
+    /**
+           * @api {GET} /topic/:topicId/dislike user dislike a topic
+           * @apiName  DislikeATopic
+           * @apiGroup Topic
+          
+           * 
+           * @apiSuccess {Number} code 0 represents "successful repsonse"
+           
+           *
+           * @apiSuccessExample Success-Response:
+           *     HTTP/1.1 200 OK
+           *     {
+           *       "code": "0",     
+           *     }
+           *
+           * @apiError ErrorCreateUser Error get topic
+           * @apiErrorExample Error-Response:
+           *     HTTP/1.1 404 Not Found
+           *     {
+           *       "error": "UserNotFound"
+           *     }
+           */
     .get(auth({ loadJWTUser: true }), (req, res, next) => {
 
         (async () => {
@@ -371,28 +373,28 @@ router.route('/:id/dislike')
     })
 
 router.route('/:id/reply/:replyId/like')
-/**
-       * @api {GET} /topic/:topicId/:replyId/like user like a reply
-       * @apiName  LikeAReply
-       * @apiGroup Topic
-      
-       * 
-       * @apiSuccess {Number} code 0 represents "successful repsonse"
-       
-       *
-       * @apiSuccessExample Success-Response:
-       *     HTTP/1.1 200 OK
-       *     {
-       *       "code": "0",     
-       *     }
-       *
-       * @apiError ErrorCreateUser Error get topic
-       * @apiErrorExample Error-Response:
-       *     HTTP/1.1 404 Not Found
-       *     {
-       *       "error": "UserNotFound"
-       *     }
-       */
+    /**
+           * @api {GET} /topic/:topicId/:replyId/like user like a reply
+           * @apiName  LikeAReply
+           * @apiGroup Topic
+          
+           * 
+           * @apiSuccess {Number} code 0 represents "successful repsonse"
+           
+           *
+           * @apiSuccessExample Success-Response:
+           *     HTTP/1.1 200 OK
+           *     {
+           *       "code": "0",     
+           *     }
+           *
+           * @apiError ErrorCreateUser Error get topic
+           * @apiErrorExample Error-Response:
+           *     HTTP/1.1 404 Not Found
+           *     {
+           *       "error": "UserNotFound"
+           *     }
+           */
     .get(auth({ loadJWTUser: true }), (req, res, next) => {
         (async () => {
             await LikeService.likeReply(req.user._id, req.params.replyId)
@@ -409,28 +411,28 @@ router.route('/:id/reply/:replyId/like')
     })
 
 router.route('/:id/reply/:replyId/dislike')
-/**
-       * @api {GET} /topic/:topicId/:replyId/dislike user dislike a reply
-       * @apiName  DisikeAReply
-       * @apiGroup Topic
-      
-       * 
-       * @apiSuccess {Number} code 0 represents "successful repsonse"
-       
-       *
-       * @apiSuccessExample Success-Response:
-       *     HTTP/1.1 200 OK
-       *     {
-       *       "code": "0",     
-       *     }
-       *
-       * @apiError ErrorCreateUser Error get topic
-       * @apiErrorExample Error-Response:
-       *     HTTP/1.1 404 Not Found
-       *     {
-       *       "error": "UserNotFound"
-       *     }
-       */
+    /**
+           * @api {GET} /topic/:topicId/:replyId/dislike user dislike a reply
+           * @apiName  DisikeAReply
+           * @apiGroup Topic
+          
+           * 
+           * @apiSuccess {Number} code 0 represents "successful repsonse"
+           
+           *
+           * @apiSuccessExample Success-Response:
+           *     HTTP/1.1 200 OK
+           *     {
+           *       "code": "0",     
+           *     }
+           *
+           * @apiError ErrorCreateUser Error get topic
+           * @apiErrorExample Error-Response:
+           *     HTTP/1.1 404 Not Found
+           *     {
+           *       "error": "UserNotFound"
+           *     }
+           */
     .get(auth({ loadJWTUser: true }), (req, res, next) => {
         (async () => {
             await LikeService.dislikeReply(req.user._id, req.params.replyId)

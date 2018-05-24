@@ -3,60 +3,63 @@ const router = express.Router()
 const auth = require('../middlewares/auth_user')
 const MsgService = require('../services/msg_service')
 const logger = require('../utils/logger').logger
+const Msg = require('../models/mongo/msg')
+const { ObjectId } = require('mongoose').Types
+const User = require('../models/mongo/user')
 
 router
   .route('/')
-/**
- * @api {get} /msg  Get User Received Msg
- * @apiName GetUserMsg
- * @apiGroup Msg
- *
- 
-   * 
-   * @apiHeader {String} Authorization bearer `token`
-    
-    * @apiHeaderExample {json} Header-Example:
-    *    {
-    *       "Authorization" : "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YWJlM2Y3OTY5YzlkOTExMWJlODdlZjYiLCJpYXQiOjE1MjU0MTU2MzIwNTQsImV4cGlyZSI6MTUyNTUwMjAzMjA1NH0.kafI-1f8ocvF-AjABkPvkknLq7l2tKKAm7plGViHDD4"
-    *     }
-    * 
+  /**
+   * @api {get} /msg  Get User Received Msg
+   * @apiName GetUserMsg
+   * @apiGroup Msg
    *
+   
+     * 
+     * @apiHeader {String} Authorization bearer `token`
+      
+      * @apiHeaderExample {json} Header-Example:
+      *    {
+      *       "Authorization" : "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YWJlM2Y3OTY5YzlkOTExMWJlODdlZjYiLCJpYXQiOjE1MjU0MTU2MzIwNTQsImV4cGlyZSI6MTUyNTUwMjAzMjA1NH0.kafI-1f8ocvF-AjABkPvkknLq7l2tKKAm7plGViHDD4"
+      *     }
+      * 
+     *
+     * 
    * 
- * 
- *
- * @apiSuccess {Number} code  0-success
-  * @apiSuccess {Array} msgs  user received msgs
- *
- * @apiSuccessExample Success-Response:
- *     HTTP/1.1 200 OK
- *     {
- *       "code": 0,
- *        "msgs": [
-  *        {
- *           "_id": "5aec014ec3c03a421183901f",
- *           "from": "5abe460346771c6bf8069a19",
- *           "to": "5abe460346771c6bf8069a19",
- *           "content": "5aec014ec3c03a421183901e;this is a question about how to find paper",
- *           "type": "sys",
- *           "__v": 0,
- *           "createTime": 1525415101600
- *         }
- *     ]
- *     }
- *
- * @apiError UserNotFound The id of the User was not found.
- *
- * @apiErrorExample Error-Response:
- *     HTTP/1.1 404 Not Found
- *     {
- *       "error": "UserNotFound"
- *     }
- */
+   *
+   * @apiSuccess {Number} code  0-success
+    * @apiSuccess {Array} msgs  user received msgs
+   *
+   * @apiSuccessExample Success-Response:
+   *     HTTP/1.1 200 OK
+   *     {
+   *       "code": 0,
+   *        "msgs": [
+    *        {
+   *           "_id": "5aec014ec3c03a421183901f",
+   *           "from": "5abe460346771c6bf8069a19",
+   *           "to": "5abe460346771c6bf8069a19",
+   *           "content": "5aec014ec3c03a421183901e;this is a question about how to find paper",
+   *           "type": "sys",
+   *           "__v": 0,
+   *           "createTime": 1525415101600
+   *         }
+   *     ]
+   *     }
+   *
+   * @apiError UserNotFound The id of the User was not found.
+   *
+   * @apiErrorExample Error-Response:
+   *     HTTP/1.1 404 Not Found
+   *     {
+   *       "error": "UserNotFound"
+   *     }
+   */
 
   //get user all received messages
   .get(auth({ loadJWTUser: true }), (req, res, next) => {
     (async () => {
-      
+
       const userId = req.user._id
       const page = Number(req.query.page) || 0
       const pageSize = Number(req.query.pageSize) || 10
@@ -66,7 +69,7 @@ router
         page,
         pageSize,
       })
-      
+
 
       return {
         code: 0,
@@ -143,7 +146,7 @@ router
 
   .post(auth({ loadJWTUser: true }), (req, res, next) => {
     (async () => {
-      const userId = req.user._id  
+      const userId = req.user._id
 
       const { to, content } = req.body
       const msg = await MsgService.sendAMsgByUser(req.user._id, to, content)
@@ -161,9 +164,79 @@ router
       })
       .catch(e => {
         res.err = e
-        logger.error('error sending response', {err: e.stack || e})
+        logger.error('error sending response', { err: e.stack || e })
         //response(req, res)
       })
   })
 
+router.route('/usermsg')
+  .get(auth({ loadJWTUser: true }), (req, res, next) => {
+    (async () => {
+      let MsgModel = Msg.model
+      const userId = req.user._id
+      const page = Number(req.query.page) || 0
+      const pageSize = Number(req.query.pageSize) || 10
+
+      let cursor = MsgModel.aggregate()
+        .match({ to: ObjectId(userId), type: "user" })
+        .group({ _id: "$from", last_content: { $last: "$content" }, last_time: { $last: "$createTime" } })
+        .cursor({ batchSize: 1000 })
+        .exec()
+
+      let msgs = []
+
+      cursor
+        .on('error', function (err) {
+          const errorMsg = 'error getting received msgs from db'
+          logger.error(errorMsg, { err: e.stack || e })
+          throw new Errors.InternalError(errorMsg)
+        })
+        .on('data', function (chunk) {
+          console.log(chunk);
+          msgs.push(chunk)
+        })
+        .on('end', function () {
+          try {
+            (async () => {
+              for (let i = 0; i < msgs.length; i++) {
+                let user = await User.getUserById(msgs[i]._id)
+                msgs[i].name = user.name
+                r = {
+                  code: 0,
+                  msgs,
+                }
+                res.data = r
+                res.json(r)
+              }
+
+
+            })()
+              .catch(e => {
+                res.err = e
+                logger.error('error sending response', { err: e.stack || e })
+
+              })
+
+          } catch (err) {
+            next(err)
+          }
+
+
+        })
+
+
+
+    })()
+      // .then(r => {
+      //   res.data = r
+      //   res.json(r)
+      //   //response(req, res)
+      // })
+      .catch(e => {
+        next(e)
+        //res.err = e
+        //response(req, res)
+      })
+
+  })
 module.exports = router

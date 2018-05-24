@@ -10,7 +10,7 @@ router.route('/')
 .post(auth({ loadUser: true }),(req, res, next)=>{
     (async () => {
         let result = await TagService.getTags(req.body.title)
-        console.dir(result)
+      
         return {
           code: 0,
           course: result.course,

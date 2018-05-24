@@ -54,7 +54,7 @@ async function findStuByCourseName(courseName) {
       throw new Errors.InternalError(errorMsg)
     })
 
-  return course[0].userId
+  return course
 }
 
 async function getCourseByuserId(userId) {

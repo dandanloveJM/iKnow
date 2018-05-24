@@ -246,6 +246,21 @@ router.route('/')
             })
     })
 
-    
+    router.route('/test')
+    .post((req, res, next)=>{
+        (async () => {
+            let courses = await Course.findStuByCourseName(req.body.course) 
+            return {
+              code: 0,
+              courses: courses,
+            }
+          })()
+            .then(r => {
+              res.json(r)
+            })
+            .catch(e => {
+              next(e)
+            })
+    })
 
 module.exports = router;

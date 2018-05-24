@@ -57,6 +57,7 @@ async function getUserReceivedMsgs(query) {
     return msgs
 }
 
+
 module.exports = {
     sendAMsgByUser,
     sendAMsgBySys,
