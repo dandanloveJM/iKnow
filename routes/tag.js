@@ -6,7 +6,7 @@ const TagService = require('../services/jieba_service')
 
 /* localhost:8082/tag/ */
 router.route('/')
-.post((req, res, next)=>{
+.post(auth({ loadUser: true }),(req, res, next)=>{
     (async () => {
         let result = await TagService.getTags(req.body.title)
         console.dir(result)
