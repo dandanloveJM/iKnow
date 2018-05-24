@@ -45,6 +45,17 @@ async function createANewTopic(params) {
 
 }
 
+async function getAllTopics(params = { page: 0, pageSize: 10 }) {
+    let flow = TopicModel.find({}).sort({ _id: -1})
+    flow.skip(params.page * params.pageSize)
+    flow.limit(params.pageSize)
+    return await flow
+        .catch(e => {
+            console.log(e)
+            throw new Error('error getting topics from db')
+        })
+}
+
 
 async function getTopics(params = { page: 0, pageSize: 10 }) {
     let flow = TopicModel.find({},{title:1, courseTag:1, replyList:{"$slice":1}}).sort({ _id: -1})
@@ -170,5 +181,6 @@ module.exports = {
     dislikeATopic,
     getTopicCreator,
     getReplyCreator,
-    findTopic
+    findTopic,
+    getAllTopics,
 }

@@ -145,6 +145,23 @@ router.route('/')
 
 
     })
+router.route('/alltopic')
+.get((req, res, next) => {
+    (async () => {
+        let topics = await Topic.getAllTopics()
+        return {
+            code: 0,
+            topics: topics,
+        }
+    })()
+        .then(r => {
+            res.json(r)
+        })
+        .catch(e => {
+            next(e)
+        })
+
+})
 //localhost:8082/topic/10000
 
 router.route('/:topicId')

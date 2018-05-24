@@ -13,6 +13,7 @@ const courseRouter = require('./routes/course')
 const favicons = require('connect-favicons')
 const msgRouter = require('./routes/msg')
 const searchRouter = require('./routes/search')
+const imgCourseRouter = require('./routes/imgcourse')
 require('./services/mongoose_service.js')
 
 
@@ -40,6 +41,7 @@ app.use('/course', courseRouter)
 app.use('/msg', msgRouter)
 app.use('/search', searchRouter)
 app.use('/tag', tagRouter)
+app.use('/imgcourse', imgCourseRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
