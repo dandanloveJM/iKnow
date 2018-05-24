@@ -48,16 +48,19 @@ router.route('/')
                 let imgsrc = 'http://ov6ie3kzo.bkt.clouddn.com/' + filename
                 let result = await OCR.ocr(imgsrc)
 
-                for (let i = 0; i < result.length; i++) {
-                     await Course.addCourse({
+                var set = new Set(result);
+                var newArr = Array.from(set);
+
+                for (let i = 0; i < newArr.length; i++) {
+                    await Course.addCourse({
                         userId: ObjectId(req.user._id),
-                        course: result[i].course,
+                        course: newArr[i].course,
 
                     })
                 }
                 return {
                     code: 0,
-                    result: result
+                    newArr: newArr
                 }
 
             }
