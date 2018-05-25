@@ -52,7 +52,7 @@ router.route('/')
             let timeArray = []
             for(let i = 0; i < topics.length; i++){
                 timeArray.push(Time(topics[i].createTime))
-                topics[i].time = Time(topics[i].createTime)
+                //topics[i].time = Time(topics[i].createTime)
             }
             return {
                 code: 0,
@@ -155,10 +155,16 @@ router.route('/')
 router.route('/alltopic')
     .get((req, res, next) => {
         (async () => {
+            let timeArray = []
             let topics = await Topic.getAllTopics()
+            for(let i = 0; i < topics.length; i++){
+                timeArray.push(Time(topics[i].createTime))
+               
+            }
             return {
                 code: 0,
                 topics: topics,
+                times: timeArray
             }
         })()
             .then(r => {
