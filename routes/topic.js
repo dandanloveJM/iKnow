@@ -6,6 +6,7 @@ const Course = require('../models/mongo/course')
 const auth = require('../middlewares/auth_user')
 const MsgService = require('../services/msg_service')
 const LikeService = require('../services/like_service')
+const Time = require('../utils/date').getdate
 
 /* localhost:8082/topic/ */
 router.route('/')
@@ -48,9 +49,15 @@ router.route('/')
     .get((req, res, next) => {
         (async () => {
             let topics = await Topic.getTopics()
+            let timeArray = []
+            for(let i = 0; i < topics.length; i++){
+                timeArray.push(Time(topics[i].createTime))
+                topics[i].time = Time(topics[i].createTime)
+            }
             return {
                 code: 0,
                 topics: topics,
+                times: timeArray
             }
         })()
             .then(r => {
@@ -129,7 +136,7 @@ router.route('/')
             for (let i = 0; i < users.length; i++) {
                 let msg = await MsgService.sendAMsgBySys(req.user._id, users[i].userId, topic._id + ';' + topic.title)
             }
-            
+
 
             return {
                 code: 0,
@@ -146,23 +153,23 @@ router.route('/')
 
     })
 router.route('/alltopic')
-.get((req, res, next) => {
-    (async () => {
-        let topics = await Topic.getAllTopics()
-        return {
-            code: 0,
-            topics: topics,
-        }
-    })()
-        .then(r => {
-            res.setHeader("Access-Control-Allow-Origin", "*")
-            res.json(r)
-        })
-        .catch(e => {
-            next(e)
-        })
+    .get((req, res, next) => {
+        (async () => {
+            let topics = await Topic.getAllTopics()
+            return {
+                code: 0,
+                topics: topics,
+            }
+        })()
+            .then(r => {
+                res.setHeader("Access-Control-Allow-Origin", "*")
+                res.json(r)
+            })
+            .catch(e => {
+                next(e)
+            })
 
-})
+    })
 //localhost:8082/topic/10000
 
 router.route('/:topicId')
@@ -204,10 +211,12 @@ router.route('/:topicId')
     .get((req, res, next) => {
         (async () => {
             let topic = await Topic.getTopicById(req.params.topicId)
-            console.log(req.params.topicId)
+            let ts = topic[0].createTime
+            //topic[0].time = Time(ts)
             return {
                 code: 0,
                 topic: topic,
+                time: Time(ts)
             }
         })()
             .then(r => {

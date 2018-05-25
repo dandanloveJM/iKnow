@@ -6,6 +6,7 @@ const logger = require('../utils/logger').logger
 const Msg = require('../models/mongo/msg')
 const { ObjectId } = require('mongoose').Types
 const User = require('../models/mongo/user')
+const Time = require('../utils/date').getdate
 
 router
   .route('/')
@@ -201,6 +202,7 @@ router.route('/usermsg')
               for (let i = 0; i < msgs.length; i++) {
                 let user = await User.getUserById(msgs[i]._id)
                 msgs[i].name = user.name
+                msgs[i].time = Time(msgs[i].last_time)
                 r = {
                   code: 0,
                   msgs,
