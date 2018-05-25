@@ -155,6 +155,7 @@ router.route('/alltopic')
         }
     })()
         .then(r => {
+            res.setHeader("Access-Control-Allow-Origin", "*")
             res.json(r)
         })
         .catch(e => {
