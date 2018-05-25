@@ -32,6 +32,8 @@ const OCR = require('../services/ocr_service')
 router.route('/')
     .post(auth({ loadJWTUser: true }), upload.single('avatar'), (req, res, next) => {
         (async () => {
+            console.log('------------------')
+            console.dir(req)
             //console.dir(req.file)
             if (!req.file) throw new Error('no file!')
             let mimeType = req.file.mimetype.split('/')[1]
