@@ -176,6 +176,8 @@ router.route('/alltopic')
             })
 
     })
+
+
 //localhost:8082/topic/10000
 
 router.route('/:topicId')
@@ -250,6 +252,27 @@ router.route('/:topicId')
                 next(e)
             })
     })
+
+
+router.route('/:topicId/remove')
+.get((req, res, next) => {
+    (async () => {
+        let topic = await Topic.removeTopicById(req.params._id)
+        return {
+            code: 0,
+        }
+    })()
+        .then(r => {
+            res.setHeader("Access-Control-Allow-Origin", "*")
+            
+            res.json(r)
+        })
+        .catch(e => {
+            next(e)
+        })
+})
+
+
 
 router.route('/:topicId/reply')
     /**

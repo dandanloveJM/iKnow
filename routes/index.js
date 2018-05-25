@@ -6,7 +6,10 @@ const JWT_SECERT = require('../cipher').JWT_SECRET
 const Errors = require('../errors')
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index');
+});
+router.get('/topicmanage', function (req, res, next) {
+  res.render('topicmanage');
 });
 
  /**

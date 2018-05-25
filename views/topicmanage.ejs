@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>iknow问谁社区</title>
+    <meta name="description" content="这是一个 index 页面">
+    <meta name="keywords" content="index">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="icon" type="image/png" href="./assets/i/favicon.png">
+    <link rel="apple-touch-icon-precomposed" href="./assets/i/app-icon72x72@2x.png">
+    <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+    <link rel="stylesheet" href="./assets/css/amazeui.min.css" />
+    <link rel="stylesheet" href="./assets/css/amazeui.datatables.min.css" />
+    <link rel="stylesheet" href="./assets/css/app.css">
+    <link rel="stylesheet" href="./assets/css/iconfont.css">
+    <script src="./assets/js/jquery.min.js"></script>
+    <style>
+        .load-more {
+            visibility: hidden;
+            height: 20px;
+        }
+    </style>
+</head>
+
+<body data-type="widgets">
+    <script src="assets/js/theme.js"></script>
+    <div class="am-g tpl-g">
+        <!-- 头部 -->
+        <header>
+            <!-- logo -->
+            <div class="am-fl tpl-header-logo">
+                <a href="javascript:;">问谁社区</a>
+            </div>
+            <!-- 右侧内容 -->
+            <div class="tpl-header-fluid">
+                <!-- 侧边切换 -->
+                <div class="am-fl tpl-header-switch-button am-icon-list">
+                    <span>
+
+                </span>
+                </div>
+                <!-- 搜索 -->
+                <div class="am-fl tpl-header-search">
+                    <form class="tpl-header-search-form" action="javascript:;">
+                        <button class="tpl-header-search-btn am-icon-search"></button>
+                        <input class="tpl-header-search-box" type="text" placeholder="搜索内容...">
+                    </form>
+                </div>
+                <!-- 其它功能-->
+                <div class="am-fr tpl-header-navbar">
+                    <ul>
+                        <!-- 欢迎语 -->
+                        <li class="am-text-sm tpl-header-navbar-welcome">
+                            <a href="javascript:;">欢迎你, <span>管理员</span> </a>
+                        </li>
+
+                        <!-- 新邮件 -->
+                        <li class="am-dropdown tpl-dropdown" data-am-dropdown>
+                            <a href="javascript:;" class="am-dropdown-toggle tpl-dropdown-toggle" data-am-dropdown-toggle>
+                                <i class="am-icon-envelope"></i>
+                                <span class="am-badge am-badge-success am-round item-feed-badge">4</span>
+                            </a>
+                            <!-- 弹出列表 -->
+                            <ul class="am-dropdown-content tpl-dropdown-content">
+                                <li class="tpl-dropdown-menu-messages">
+                                    <a href="javascript:;" class="tpl-dropdown-menu-messages-item am-cf">
+                                        <div class="menu-messages-ico">
+                                            <img src="assets/img/user04.png" alt="">
+                                        </div>
+                                        <div class="menu-messages-time">
+                                            3小时前
+                                        </div>
+                                        <div class="menu-messages-content">
+                                            <div class="menu-messages-content-title">
+                                                <i class="am-icon-circle-o am-text-success"></i>
+                                                <span>管理员小丁</span>
+                                            </div>
+                                            <div class="am-text-truncate">又有新的用户入驻了</div>
+                                            <div class="menu-messages-content-time">2019-5-20 下午 16:40</div>
+                                        </div>
+                                    </a>
+                                </li>
+
+                                <li class="tpl-dropdown-menu-messages">
+                                    <a href="javascript:;" class="tpl-dropdown-menu-messages-item am-cf">
+                                        <div class="menu-messages-ico">
+                                            <img src="assets/img/user02.png" alt="">
+                                        </div>
+                                        <div class="menu-messages-time">
+                                            5天前
+                                        </div>
+                                        <div class="menu-messages-content">
+                                            <div class="menu-messages-content-title">
+                                                <i class="am-icon-circle-o am-text-warning"></i>
+                                                <span>管理员小李</span>
+                                            </div>
+                                            <div class="am-text-truncate"> 为了能最准确的传达所描述的问题， 建议你在反馈时附上演示，方便我们理解。 </div>
+                                            <div class="menu-messages-content-time">2018-5-20 上午 09:23</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="tpl-dropdown-menu-messages">
+                                    <a href="javascript:;" class="tpl-dropdown-menu-messages-item am-cf">
+                                        <i class="am-icon-circle-o"></i> 进入列表…
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+
+                        <!-- 退出 -->
+                        <li class="am-text-sm">
+                            <a href="javascript:;">
+                                <span class="am-icon-sign-out"></span> 退出
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </header>
+        <!-- 风格切换 -->
+        <div class="tpl-skiner">
+            <div class="tpl-skiner-toggle am-icon-cog">
+            </div>
+            <div class="tpl-skiner-content">
+                <div class="tpl-skiner-content-title">
+                    选择主题
+                </div>
+                <div class="tpl-skiner-content-bar">
+                    <span class="skiner-color skiner-white" data-color="theme-white"></span>
+                    <span class="skiner-color skiner-black" data-color="theme-black"></span>
+                </div>
+            </div>
+        </div>
+        <!-- 侧边导航栏 -->
+        <div class="left-sidebar">
+            <!-- 用户信息 -->
+            <div class="tpl-sidebar-user-panel">
+                <div class="tpl-user-panel-slide-toggleable">
+                    <div class="tpl-user-panel-profile-picture">
+                        <img src="assets/img/user04.png" alt="">
+                    </div>
+                    <span class="user-panel-logged-in-text">
+              <i class="am-icon-circle-o am-text-success tpl-user-panel-status-icon"></i>
+             管理员
+          </span>
+                    <a href="javascript:;" class="tpl-user-panel-action-link"> <span class="am-icon-pencil"></span> 账号设置</a>
+                </div>
+            </div>
+
+            <!-- 菜单 -->
+            <ul class="sidebar-nav">
+               
+                <li class="sidebar-nav-link">
+                    <a href="http://localhost:8082">
+                        <i class="am-icon-home sidebar-nav-link-logo"></i> 首页
+                    </a>
+                </li>
+                <li class="sidebar-nav-link">
+                    <a href="tables.html">
+                        <i class="am-icon-table sidebar-nav-link-logo"></i> 问题管理
+                    </a>
+                </li>
+                <li class="sidebar-nav-link">
+                    <a href="calendar.html">
+                        <i class="am-icon-calendar sidebar-nav-link-logo"></i> 日历
+                    </a>
+                </li>
+           
+             
+
+           
+                <li class="sidebar-nav-link">
+                    <a href="404.html">
+                        <i class="am-icon-tv sidebar-nav-link-logo"></i> 404错误
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+
+
+        <!-- 内容区域 -->
+        <div class="tpl-content-wrapper">
+            <div class="row-content am-cf">
+                <div class="row">
+                    <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+                        <div class="widget am-cf">
+                            <div class="widget-head am-cf">
+                                <div class="widget-title  am-cf">问题列表</div>
+
+
+                            </div>
+                            <div class="widget-body  am-fr">
+
+                                <div class="am-u-sm-12 am-u-md-6 am-u-lg-6">
+                                    <div class="am-form-group">
+                                        <div class="am-btn-toolbar">
+                                            <div class="am-btn-group am-btn-group-xs">
+                                                <button type="button" class="am-btn am-btn-default am-btn-success"><span class="am-icon-plus"></span> 新增</button>
+                                                <button type="button" class="am-btn am-btn-default am-btn-secondary"><span class="am-icon-save"></span> 保存</button>
+                                                <button type="button" class="am-btn am-btn-default am-btn-warning"><span class="am-icon-archive"></span> 审核</button>
+                                                <button type="button" class="am-btn am-btn-default am-btn-danger"><span class="am-icon-trash-o"></span> 删除</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
+                                    <div class="am-input-group am-input-group-sm tpl-form-border-form cl-p">
+                                        <input type="text" class="am-form-field ">
+                                        <span class="am-input-group-btn">
+            <button class="am-btn  am-btn-default am-btn-success tpl-table-list-field am-icon-search" type="button"></button>
+          </span>
+                                    </div>
+                                </div>
+
+                                <div class="am-u-sm-12 topic-table">
+                                    <!--<table width="100%" class="am-table am-table-compact am-table-striped tpl-table-black " id="example-r">
+                                        <thead>
+                                            <tr>
+                                                <th>问题标题</th>
+                                                <th>作者</th>
+                                                <th>时间</th>
+                                                <th>课程标签</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="gradeX">
+                                                <td>Amaze UI 模式窗口</td>
+                                                <td>张鹏飞</td>
+                                                <td>2016-09-26</td>
+                                                <td>
+                                                    <div class="tpl-table-black-operation">
+                                                        <a href="javascript:;">
+                                                            <i class="am-icon-pencil"></i> 编辑
+                                                        </a>
+                                                        <a href="javascript:;" class="tpl-table-black-operation-del">
+                                                            <i class="am-icon-trash"></i> 删除
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr class="even gradeC">
+                                                <td>有适配微信小程序的计划吗</td>
+                                                <td>天纵之人</td>
+                                                <td>2016-09-26</td>
+                                                <td>
+                                                    <div class="tpl-table-black-operation">
+                                                        <a href="javascript:;">
+                                                            <i class="am-icon-pencil"></i> 编辑
+                                                        </a>
+                                                        <a href="javascript:;" class="tpl-table-black-operation-del">
+                                                            <i class="am-icon-trash"></i> 删除
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr class="gradeX">
+                                                <td>请问有没有amazeui 分享插件</td>
+                                                <td>王宽师</td>
+                                                <td>2016-09-26</td>
+                                                <td>
+                                                    <div class="tpl-table-black-operation">
+                                                        <a href="javascript:;">
+                                                            <i class="am-icon-pencil"></i> 编辑
+                                                        </a>
+                                                        <a href="javascript:;" class="tpl-table-black-operation-del">
+                                                            <i class="am-icon-trash"></i> 删除
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr class="even gradeC">
+                                                <td>关于input输入框的问题</td>
+                                                <td>着迷</td>
+                                                <td>2016-09-26</td>
+                                                <td>
+                                                    <div class="tpl-table-black-operation">
+                                                        <a href="javascript:;">
+                                                            <i class="am-icon-pencil"></i> 编辑
+                                                        </a>
+                                                        <a href="javascript:;" class="tpl-table-black-operation-del">
+                                                            <i class="am-icon-trash"></i> 删除
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr class="even gradeC">
+                                                <td>有没有发现官网上的下载包不好用</td>
+                                                <td>醉里挑灯看键</td>
+                                                <td>2016-09-26</td>
+                                                <td>
+                                                    <div class="tpl-table-black-operation">
+                                                        <a href="javascript:;">
+                                                            <i class="am-icon-pencil"></i> 编辑
+                                                        </a>
+                                                        <a href="javascript:;" class="tpl-table-black-operation-del">
+                                                            <i class="am-icon-trash"></i> 删除
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <tr class="even gradeC">
+                                                <td>我建议WEB版本文件引入问题</td>
+                                                <td>罢了</td>
+                                                <td>2016-09-26</td>
+                                                <td>
+                                                    <div class="tpl-table-black-operation">
+                                                        <a href="javascript:;">
+                                                            <i class="am-icon-pencil"></i> 编辑
+                                                        </a>
+                                                        <a href="javascript:;" class="tpl-table-black-operation-del">
+                                                            <i class="am-icon-trash"></i> 删除
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <!-- more data -->
+                                    <!--</tbody>
+                                    </table>-->
+                                </div>
+
+                                <div class="am-u-lg-12 am-cf">
+
+                                    <div class="am-fr">
+                                        <ul class="am-pagination tpl-pagination">
+                                            <li class="am-disabled"><a href="#">«</a></li>
+                                            <li class="am-active"><a href="#">1</a></li>
+                                            <li><a href="#" class="">2</a></li>
+                                            <li><a href="#">3</a></li>
+                                            <li><a href="#">4</a></li>
+                                            <li><a href="#">5</a></li>
+                                            <li><a href="#">»</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script src="assets/js/amazeui.min.js"></script>
+    <script src="assets/js/amazeui.datatables.min.js"></script>
+    <script src="assets/js/dataTables.responsive.min.js"></script>
+    <script src="assets/js/app.js"></script>
+
+</body>
+
+</html>
+
+<script>
+    let pageIndex = 0
+    var isDataArrive = true
+    var isOver = false
+    function getTopics() {
+        isDataArrive = false
+        $.ajax({
+            url: 'http://localhost:8082/topic/alltopic',
+            type: 'GET',
+
+        })
+            .done(function (data) {
+
+                if (data.code === 0) {
+                    console.dir(data)
+
+                    for (let i = 0; i < data.topics.length; i++) {
+                        data.topics[i].time = data.times[i]
+                    }
+
+                    makeTopics(data.topics)
+
+                } else {
+                    alert('获取topics出错了')
+                }
+
+            })
+            .fail(function (data) {
+                alert('系统异常')
+            })
+
+    }
+    function makeTopics(topics) {
+        if (topics.length === 0) {
+
+            $('.am-u-sm-12.topic-table').append('<p>没有更多数据了~~~</p>')
+
+        }
+        let html = ` <table width="100%" class="am-table am-table-compact am-table-striped tpl-table-black " id="example-r">
+                                        <thead>
+                                            <tr>
+                                                <th>问题标题</th>
+                                                <th>作者</th>
+                                                <th>时间</th>
+                                                <th>课程标签</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>`
+        $.each(topics, function (i, topic) {
+
+            let str = topic.creator
+            str = str.split(',')[1].trim()
+            str = str.split(' ')[1].replace(/'/g, "")
+            if (i % 2 === 0) {
+                //偶数
+                html += `  <tr class="even gradeC">
+                                                <td>${topic.title}</td>
+                                                <td>${str}</td>
+                                                <td>${topic.time}</td>
+                                                <td> ${topic.courseTag}</td>
+                                                <td>
+                                                    <div class="tpl-table-black-operation">
+                                                        <a href="javascript:;">
+                                                            <i class="am-icon-pencil"></i> 编辑
+                                                        </a>
+                                                        <a href="javascript:;" data-id=${topic._id} class="tpl-table-black-operation-del">
+                                                            <i class="am-icon-trash" data-id=${topic._id}></i> 删除
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>`
+            } else if (i % 2 === 1) {
+                html += `
+                                            <tr class="even gradeX">
+                                                <td>${topic.title}</td>
+                                                <td>${str}</td>
+                                                <td>${topic.time}</td>
+                                                <td> ${topic.courseTag}</td>
+                                                <td>
+                                                    <div class="tpl-table-black-operation">
+                                                        <a href="javascript:;">
+                                                            <i class="am-icon-pencil"></i> 编辑
+                                                        </a>
+                                                        <a href="javascript:;" data-id=${topic._id} class="tpl-table-black-operation-del">
+                                                            <i class="am-icon-trash" data-id=${topic._id}></i> 删除
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>`
+            }
+
+
+
+        })
+
+        html += ' </tbody></table>'
+        $('.am-u-sm-12.topic-table').append(html)
+
+
+        $('.tpl-table-black-operation-del').on('click', function (e) {
+        console.log(111)
+        let topicId = $(this).attr('data-id')
+        console.log(topicId)
+        $.ajax({
+            url: 'http://localhost:8082/topic/' + topicId + '/remove',
+            type: 'GET',
+        })
+            .done(function (data) {
+                if (data.code === 0) {
+                    alert('删除成功')
+                    window.location.href = 'http://localhost:8082/topicmanage'
+                } else {
+                    alert('删除问题出错了')
+                }
+            })
+    })
+
+    }
+
+
+
+    $(document).ready(function () {
+        getTopics()
+    })
+
+    
+</script>
